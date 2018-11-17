@@ -11,7 +11,7 @@ CREATE TABLE users(
     pass CHAR(30) NOT NULL,
     created TIMESTAMP DEFAULT now(),
     modified TIMESTAMP DEFAULT now() ON UPDATE now(),
-    PRIMARY KEY (id)
+    PRIMARY KEY (firstName, lastName)
 );
 
 DROP TABLE IF EXISTS classes;
