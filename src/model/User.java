@@ -3,6 +3,15 @@ package model;
 public class User {
     private String id, firstName, lastName, email, password;
 
+    public User(String id) {
+        this.id = id;
+    }
+
+    public User(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -138,4 +138,204 @@ Please note that `?` is an input parameter
     delete from classes where id=? and uId=?;
     ```
 
-7. 
+7. A user must be able to add an event 
+    ```sql
+    insert into events(title, startDate, endDate, uID) values(?, ?, ?, ?);
+    ```
+
+8. A user must be able to edit an event
+    ```sql 
+    update events 
+    set ?=?
+    where uID=? and id=?
+    ```
+
+9. A user must be able to delete an event
+    ```sql
+    delete from events
+    where uID=? and title=?
+    ```
+
+10. A user must be able to add a todo
+    ```sql
+    insert into todos (title, due, reminder, uID, classID)
+        values(?, ?, ?, ?, ?)
+    ```
+
+11. A user must be able to edit a todo
+    ```sql
+    update todos set ?=? where id=?;
+    ```
+
+12. A user must be able to delete a todo
+    ```sql
+    delete from todos
+    where ?=? 
+    ```
+
+16. Getting how many notes a student has for each class he is in
+    ```sql
+    select classes.id, count(notes.id)
+    from classes join notes on 
+        classes.id=notes.classID and
+        classes.uID = ? and
+        notes.uID = ?
+    group by classes.id
+    ```
+
+17. Getting a list of all events and all users attending such events
+    ```sql 
+    select events.title, users.firstName, users.lastName
+    from users left join events on users.id=events.uID
+    where title is not null
+    order by title
+    union all
+    select events.title, users.firstName, users.lastName
+    from users right join events on users.id=events.uID
+    where title is not null
+    order by title 
+    ```
+    
+18. Getting all users that have 4 classes or more (full-time)
+    ```sql
+    select users.firstname, users.lastname 
+    from users 
+    where 4 <= (select COUNT(*)
+                from classes 
+                where classes.uID = users.id);
+    ```
+
+19. Getting all users with 0 todos
+    ```sql 
+    select users.firstName, users.lastName 
+    from users u1
+    where (u1.firstName, u1.lastName) not in
+    select users.firstName, users.lastName 
+    from users u2 join classes on u2.id = classes.uID 
+    group by u2.id 
+    having count(*) > 0);
+    ```
+
+20. Getting users  who are attending the same two classes
+    
+21. Getting all users with overdue todos
+    ```sql
+    select distinct users.firstName, users.lastName
+    from users
+    where id in (select uID 
+                 from todos
+                 where ? > due)
+    ```
+
+### User Requests
+- Function requirement 16
+    Let's assume the user here, is user with Id 1.
+    ```java
+    public ArrayList<NoteCount> getNotesPerClass(User user) throws SQLException {
+         String sql =  "select classes.id, count(notes.id) " +
+                       "from classes join notes on " +
+                       "classes.id=notes.classID and " +
+                       "classes.uID = ? and " +
+                       "notes.uID = ? " +
+                       "group by classes.id";
+    
+         Connection conn = getConnection();
+         PreparedStatement stmnt = conn.prepareStatement(sql);
+         stmnt.setString(1, user.getId());
+         stmnt.setString(2, user.getId());
+    
+         ArrayList<NoteCount> list = new ArrayList<>();
+         ResultSet set = stmnt.executeQuery();
+         while(set.next()) {
+             list.add(new NoteCount(set.getString(1), set.getInt(2)));
+         }
+    
+         return list;
+    }
+    
+    public static void requirement16() throws SQLException {
+        ArrayList<NoteCount> counts = notesStorage.getNotesPerClass(new User("1"));
+        printNoteCounts(counts);
+    }
+    ```
+    
+    ![requirement 16](../screenshots/output/requirement16.png?raw=true "Requirement 16")
+
+
+- Function requirement 18 
+    ```java
+    public ArrayList<User> getFullTimeStudents() throws SQLException {
+        String sql = "select users.firstname, users.lastname " +
+                     "from users " +
+                     "where 4 <= (select COUNT(*) " +
+                     "from classes " +
+                     "where classes.uID = users.id)";
+    
+        ArrayList<User> list = new ArrayList<>();
+        Connection conn = getConnection();
+        PreparedStatement stmnt = conn.prepareStatement(sql);
+        ResultSet set = stmnt.executeQuery();
+        while(set.next()) {
+            list.add(new User(set.getString(1), set.getString(2)));
+        }
+    
+        return list;
+    }
+    
+    public static void requirement18() throws SQLException {
+        printUsers(classStorage.getFullTimeStudents());
+    }
+    ```
+    
+    ![requirement 18](../screenshots/output/requirement18.png?raw=true "Requirement 18")
+
+- Function requirement 21
+    ```sql
+    public ArrayList<User> getUsersWithOverDueTodos() throws SQLException {
+            String sql = "select distinct users.firstName, users.lastName " +
+                "from users " +
+                "where id in (select uID " +
+                "from todos " +
+                "where ? > due)";
+    
+            Date date= new Date();
+            long time = date.getTime();
+            Timestamp ts = new Timestamp(time);
+    
+            Connection connection = getConnection();
+            PreparedStatement stmnt = connection.prepareStatement(sql);
+            stmnt.setTimestamp(1, ts);
+            ResultSet set = stmnt.executeQuery();
+            ArrayList<User> list = new ArrayList<>();
+            while(set.next()) {
+                list.add(new User(
+                    set.getString(1),
+                    set.getString(2)
+                ));
+            }
+    
+            connection.close();
+            return list;
+        }
+        
+    public static void requirement21() throws SQLException {
+            printUsers(toDoStorage.getUsersWithOverDueTodos());
+        }
+    ```
+    ![requirement 21](../screenshots/output/requirement21.png?raw=true "Requirement 21")
+
+
+#### Utility Functions 
+```java
+public static void printUsers(ArrayList<User> users) {
+    for (User u : users) {
+        System.out.println(u.getFirstName() + " " + u.getLastName());
+    }
+}
+
+public static void printNoteCounts(ArrayList<NoteCount> counts) {
+    for (NoteCount c : counts) {
+        System.out.println(c.classId + " " + c.count);
+    }
+}
+```

@@ -70,6 +70,29 @@ public class LectureClassStorage extends Storage {
     }
 
     /**
+     * Function requirement 18
+     * @return
+     * @throws SQLException
+     */
+    public ArrayList<User> getFullTimeStudents() throws SQLException {
+        String sql = "select users.firstname, users.lastname " +
+            "from users " +
+            "where 4 <= (select COUNT(*) " +
+            "from classes " +
+            "where classes.uID = users.id)";
+
+        ArrayList<User> list = new ArrayList<>();
+        Connection conn = getConnection();
+        PreparedStatement stmnt = conn.prepareStatement(sql);
+        ResultSet set = stmnt.executeQuery();
+        while(set.next()) {
+            list.add(new User(set.getString(1), set.getString(2)));
+        }
+
+        return list;
+    }
+
+    /**
      * FUNCTION REQUIREMENT 20
      * @param classes
      * @return

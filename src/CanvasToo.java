@@ -1,6 +1,8 @@
 import model.LectureClass;
+import model.NoteCount;
 import model.User;
 import storage.LectureClassStorage;
+import storage.NotesStorage;
 import storage.ToDoStorage;
 import storage.UserStorage;
 
@@ -8,18 +10,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class CanvasToo {
-    static ToDoStorage toDoStorage;
     static LectureClassStorage classStorage;
+    static ToDoStorage toDoStorage;
+    static NotesStorage notesStorage;
     static UserStorage userStorage;
 
     public static void main(String[] args) throws SQLException {
-        toDoStorage = new ToDoStorage();
+        System.out.println("Welcome to CanvasToo");
+
         classStorage = new LectureClassStorage();
+        notesStorage = new NotesStorage();
+        toDoStorage = new ToDoStorage();
         userStorage = new UserStorage();
 
         // requirement4();
         // requirement5();
-        requirement6();
+        // requirement6();
+        // requirement16();
+        // requirement18();
+        requirement21();
 
 //        // add a test user
 //        User user = new User("Hirad", "P", "test@test.com", "test");
@@ -79,9 +88,28 @@ public class CanvasToo {
         classStorage.deleteClass("CS158", "5");
     }
 
+    public static void requirement16() throws SQLException {
+        ArrayList<NoteCount> counts = notesStorage.getNotesPerClass(new User("1"));
+        printNoteCounts(counts);
+    }
+
+    public static void requirement18() throws SQLException {
+        printUsers(classStorage.getFullTimeStudents());
+    }
+
+    public static void requirement21() throws SQLException {
+        printUsers(toDoStorage.getUsersWithOverDueTodos());
+    }
+
     public static void printUsers(ArrayList<User> users) {
         for (User u : users) {
             System.out.println(u.getFirstName() + " " + u.getLastName());
+        }
+    }
+
+    public static void printNoteCounts(ArrayList<NoteCount> counts) {
+        for (NoteCount c : counts) {
+            System.out.println(c.classId + " " + c.count);
         }
     }
 }

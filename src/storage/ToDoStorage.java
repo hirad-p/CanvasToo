@@ -9,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.sql.Timestamp;
 
 public class ToDoStorage extends Storage {
 
@@ -37,6 +39,33 @@ public class ToDoStorage extends Storage {
                 set.getString("firstName"),
                 set.getString("lastName"),
                 set.getString("email")
+            ));
+        }
+
+        connection.close();
+        return list;
+    }
+
+    public ArrayList<User> getUsersWithOverDueTodos() throws SQLException {
+        String sql = "select distinct users.firstName, users.lastName " +
+            "from users " +
+            "where id in (select uID " +
+            "from todos " +
+            "where ? > due)";
+
+        Date date= new Date();
+        long time = date.getTime();
+        Timestamp ts = new Timestamp(time);
+
+        Connection connection = getConnection();
+        PreparedStatement stmnt = connection.prepareStatement(sql);
+        stmnt.setTimestamp(1, ts);
+        ResultSet set = stmnt.executeQuery();
+        ArrayList<User> list = new ArrayList<>();
+        while(set.next()) {
+            list.add(new User(
+                set.getString(1),
+                set.getString(2)
             ));
         }
 
