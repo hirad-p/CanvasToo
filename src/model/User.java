@@ -3,10 +3,14 @@ package model;
 public class User {
     private String id, firstName, lastName, email, password;
 
-    public User(String firstName, String lastName, String email, String password) {
+    public User(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public User(String firstName, String lastName, String email, String password) {
+        this(firstName, lastName, email);
         this.password = password;
     }
 

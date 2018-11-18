@@ -11,7 +11,7 @@ CREATE TABLE users(
     pass CHAR(30) NOT NULL,
     created TIMESTAMP DEFAULT now(),
     modified TIMESTAMP DEFAULT now() ON UPDATE now(),
-    PRIMARY KEY (firstName, lastName)
+    PRIMARY KEY (id)
 );
 
 DROP TABLE IF EXISTS classes;
@@ -26,7 +26,7 @@ CREATE TABLE classes(
     created TIMESTAMP DEFAULT now(),
     modified TIMESTAMP DEFAULT now() ON UPDATE now(),
     uID MEDIUMINT,
-    PRIMARY KEY (id),
+    PRIMARY KEY (id, uID),
     FOREIGN KEY (uID) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE events(
     endTime TIME,
     startDate DATE NOT NULL,
     endDate DATE,
-    recurring VARCHAR(30) NOT NULL,
+    recurring VARCHAR(30),
     created TIMESTAMP DEFAULT now(),
     modified TIMESTAMP DEFAULT now() ON UPDATE now(),
     uID MEDIUMINT,

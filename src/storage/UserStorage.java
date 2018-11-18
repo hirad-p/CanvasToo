@@ -7,6 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class UserStorage extends Storage {
+
+    /**
+     *  FUNCTION REQUIREMENT 1
+     * @param user
+     * @throws SQLException
+     */
     public void addUser(User user) throws SQLException {
         Connection conn = this.getConnection();
         String sql = "insert into users(firstName, lastName, email, pass)" + "values (?, ?, ?, ?)";
@@ -26,6 +32,11 @@ public class UserStorage extends Storage {
         conn.close();
     }
 
+    /**
+     * FUNTION REQUIREMENT 2
+     * @param user
+     * @throws SQLException
+     */
     public void updateUser(User user) throws SQLException {
         Connection conn = this.getConnection();
         String sql = "update users set email=?, pass=?"
@@ -45,6 +56,11 @@ public class UserStorage extends Storage {
         conn.close();
     }
 
+    /**
+     * FUNTION REQUIREMENT 3
+     * @param user
+     * @throws SQLException
+     */
     public void deleteUser(User user) throws SQLException {
         Connection conn = this.getConnection();
         String sql = "delete from users where id=?";

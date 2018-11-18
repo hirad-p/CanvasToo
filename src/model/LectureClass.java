@@ -1,22 +1,29 @@
 package model;
 
+import java.sql.Date;
+import java.sql.Time;
+
 public class LectureClass {
     private String classID;
     private String title;
-    private String startTime;
-    private String endTime;
-    private String startDate;
-    private String endDate;
+    private Time startTime;
+    private Time endTime;
+    private Date startDate;
+    private Date endDate;
     private String recurring;
 
     //constructor
+    public LectureClass(String classID) {
+        this.classID = classID;
+    }
+
     public LectureClass(String classID, String title, String startTime, String endTime, String startDate, String endDate, String recurring) {
         this.classID = classID;
         this.title = title;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startTime = Time.valueOf(startTime);
+        this.endTime = Time.valueOf(endTime);
+        this.startDate = Date.valueOf(startDate);
+        this.endDate = Date.valueOf(endDate);
         this.recurring = recurring;
     }
 
@@ -38,36 +45,36 @@ public class LectureClass {
         this.title = title;
     }
 
-    public String getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
     public void setStartTime(String startTime) {
-        this.startTime = startTime;
+        this.startTime = Time.valueOf(startTime);;
     }
 
-    public String getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
     public void setEndTime(String endTime) {
-        this.endTime = endTime;
+        this.endTime = Time.valueOf(endTime);;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
     public void setStartDate(String startDate) {
-        this.startDate = startDate;
+        this.startDate =  Date.valueOf(startDate);;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
     public void setEndDate(String endDate) {
-        this.endDate = endDate;
+        this.endDate =  Date.valueOf(endDate);;
     }
 
     public String getRecurring() {
