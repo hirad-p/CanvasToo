@@ -123,7 +123,7 @@ Please note that `?` is an input parameter
     ```
 
 4. A user must be able to register for a class
-    ````sql
+    ```sql
     insert into classes (id, title, startTime, endTime, startDate, endDate, recurring, uID)
         values (?, ?, ?, ?, ?, ?, ?, ?);
     ```
@@ -173,6 +173,26 @@ Please note that `?` is an input parameter
     where ?=? 
     ```
 
+13. A user must be able to add notes 
+    ```sql
+    insert into notes(title, note, uId, classId)
+        values(
+            "project guidelines",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget sapien ante.",
+            "1",
+            "CS155");
+    ```
+    
+14. A user must be able to edit notes
+    ```sql
+    update notes set ?=? where id=?;
+    ```
+
+15. A user must be able to delete notes
+    ```sql
+    delete from notes where id=?;
+    ```
+
 16. Getting how many notes a student has for each class he is in
     ```sql
     select classes.id, count(notes.id)
@@ -217,6 +237,16 @@ Please note that `?` is an input parameter
     ```
 
 20. Getting users  who are attending the same two classes
+    ```sql
+    select table1.firstname, table1.lastname 
+    from (select users.id, users.firstname, users.lastname, classes.title 
+    from users,classes  
+    where users.id = classes.uID and classes.title =? ) as table1 
+    where table1.id in (select table2.id  
+    from (select users.id, users.firstname, users.lastname, classes.title 
+    from users,classes  
+    where users.id = classes.uID and classes.title =? ) as table2)
+    ```
     
 21. Getting all users with overdue todos
     ```sql
@@ -226,6 +256,10 @@ Please note that `?` is an input parameter
                  from todos
                  where ? > due)
     ```
+    
+### Stored Procedure
+
+### Triggers
 
 ### User Requests
 - Function requirement 16
