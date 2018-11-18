@@ -259,7 +259,7 @@ Please note that `?` is an input parameter
     }
     ```
     
-    ![requirement 16](../screenshots/output/requirement16.png?raw=true "Requirement 16")
+    ![requirement 16](../screenshots/outputs/requirement16.png?raw=true "Requirement 16")
 
 
 - Function requirement 18 
@@ -287,7 +287,7 @@ Please note that `?` is an input parameter
     }
     ```
     
-    ![requirement 18](../screenshots/output/requirement18.png?raw=true "Requirement 18")
+    ![requirement 18](../screenshots/outputs/requirement18.png?raw=true "Requirement 18")
 
 - Function requirement 21
     ```sql
@@ -322,7 +322,7 @@ Please note that `?` is an input parameter
             printUsers(toDoStorage.getUsersWithOverDueTodos());
         }
     ```
-    ![requirement 21](../screenshots/output/requirement21.png?raw=true "Requirement 21")
+    ![requirement 21](../screenshots/outputs/requirement21.png?raw=true "Requirement 21")
 
 
 #### Utility Functions 
