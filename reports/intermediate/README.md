@@ -16,6 +16,7 @@ CREATE TABLE users(
     PRIMARY KEY (id)
 );
 ```
+![users schema](../screenshots/users_schema.png?raw=true "Users Schema")
 
 
 ### Functional Requirements 
