@@ -1,0 +1,17 @@
+DROP PROCEDURE IF EXISTS getToDoByClass;
+DROP PROCEDURE IF EXISTS getNotesbyTitle;
+
+DELIMITER $$
+CREATE PROCEDURE getToDoByClass(IN class VARCHAR(10))
+BEGIN
+SELECT *
+FROM todos
+WHERE classID = class;
+END $$
+CREATE PROCEDURE getNotesbyTitle(IN noteTitle VARCHAR(30))
+BEGIN
+SELECT *
+FROM notes
+WHERE title = noteTitle;
+END $$
+DELIMITER ;
