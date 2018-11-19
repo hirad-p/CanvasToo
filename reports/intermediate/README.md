@@ -272,7 +272,7 @@ Please note that `?` is an input parameter
     DELIMITER ;
     ```
     
-    ![getToDoByClass](../screenshots/getToDoByClass.png?raw=true "getToDoByClass")
+    ![getToDosByClass](../screenshots/getToDosByClass.png?raw=true "getToDosByClass")
     
 2. Get notes by title
     ```sql 
