@@ -227,13 +227,13 @@ Please note that `?` is an input parameter
 
 19. Getting all users with 0 todos
     ```sql 
-    select users.firstName, users.lastName 
-    from users u1
-    where (u1.firstName, u1.lastName) not in
-    select users.firstName, users.lastName 
-    from users u2 join classes on u2.id = classes.uID 
-    group by u2.id 
-    having count(*) > 0);
+    select users.firstname, users.lastname 
+    from users 
+    where users.id not in (
+        select users.id 
+        from users join todos on users.id =todos.uID
+        group by users.id 
+        having count(*) > 0)
     ```
 
 20. Getting users  who are attending the same two classes
@@ -259,7 +259,69 @@ Please note that `?` is an input parameter
     
 ### Stored Procedure
 
+1. Get all todos by class
+    ```sql
+    DROP PROCEDURE IF EXISTS getToDoByClass;
+    DELIMITER $$
+    CREATE PROCEDURE getToDoByClass(IN class VARCHAR(10))
+    BEGIN
+    SELECT *
+    FROM todos
+    WHERE classID = class;
+    END $$
+    DELIMITER ;
+    ```
+    
+    ![getToDoByClass](../screenshots/getToDoByClass.png?raw=true "getToDoByClass")
+    
+2. Get notes by title
+    ```sql 
+    DROP PROCEDURE IF EXISTS getToDoByClass;
+    DELIMITER $$
+    CREATE PROCEDURE getNotesByTitle(IN noteTitle VARCHAR(30))
+    BEGIN
+    SELECT *
+    FROM notes
+    WHERE title = noteTitle;
+    END $$
+    DELIMITER ;
+    ```
+    
+    ![getNotesByTitle](../screenshots/getNotesByTitle.png?raw=true "getNotesByTitle")
+    
 ### Triggers
+
+1. Delete user records
+    ```sql 
+    DROP TRIGGER IF EXISTS deleteUser;
+    DELIMITER $$
+    CREATE TRIGGER deleteUser
+    AFTER delete ON users
+    for each row
+    begin
+        delete from classes where uID = old.id;
+        delete from todos where uID = old.id;
+        delete from notes where uID = old.id;
+        delete from events where uID = old.id;
+    end $$
+    DELIMITER ;
+    ```
+    
+2. Add first and last lecture when user registers for class
+    ```sql
+    DROP TRIGGER IF EXISTS firstAndLast;
+    DELIMITER $$
+    Create trigger firstAndLast
+    AFTER insert on classes
+    for each row
+    begin
+        insert into events (title, startTime, endTime, startdate, endDate, recurring, uid, classID)
+            values ("First Lecture", new.startTime, new.endTime, new.startDate, new.startDate, null,  new.uID, new.id);
+        insert into events (title, startTime, endTime, startdate, endDate, recurring, uid, classID)
+            values ("Last Lecture", new.startTime, new.endTime, new.endDate, new.endDate, null,  new.uID, new.id);
+    end $$
+    DELIMITER ;
+    ```
 
 ### User Requests
 - Function requirement 16
