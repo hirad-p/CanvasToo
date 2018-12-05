@@ -5,6 +5,7 @@ import gui.dialog.SettingsDialog;
 import gui.dialog.SignUpDialog;
 import gui.diplayer.ClassesDisplayer;
 import gui.diplayer.NotesDisplayer;
+import gui.diplayer.TodoDisplayer;
 import model.User;
 
 import javax.swing.*;
@@ -101,6 +102,8 @@ public class CanvasTooUI {
         todoBtn = new JButton("Todos");
         todoBtn.addActionListener(e -> {
             System.out.println("Clicked on todos");
+            TodoDisplayer todoDisplayer = new TodoDisplayer(this);
+            todoDisplayer.setVisible(true);
         });
 
         eventsBtn = new JButton("Events");
