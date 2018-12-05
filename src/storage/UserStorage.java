@@ -4,6 +4,7 @@ import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserStorage extends Storage {
@@ -18,7 +19,7 @@ public class UserStorage extends Storage {
         String sql = "insert into users(firstName, lastName, email, pass)" + "values (?, ?, ?, ?)";
 
         // prepare statement
-        PreparedStatement statement = conn.prepareStatement(sql);
+        PreparedStatement statement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         // set the parameters
         statement.setString(1, user.getFirstName());
@@ -27,9 +28,14 @@ public class UserStorage extends Storage {
         statement.setString(4, user.getPassword());
 
         // execute the query
-        // TODO fetch the id and update the user object
-        statement.executeUpdate();
-        conn.close();
+        int affected = statement.executeUpdate();
+        if (affected != 0) {
+            ResultSet set = statement.getGeneratedKeys();
+            if (set.next()) {
+                user.setId(String.valueOf(set.getInt(1)));
+                System.out.println("User created with id of " + user.getId());
+            }
+        }
     }
 
     /**
@@ -39,17 +45,20 @@ public class UserStorage extends Storage {
      */
     public void updateUser(User user) throws SQLException {
         Connection conn = this.getConnection();
-        String sql = "update users set email=?, pass=?"
-            + "where firstName=? and lastName=?";
-
-        // prepare statement
-        PreparedStatement statement = conn.prepareStatement(sql);
-
-        // set the parameters
+        PreparedStatement statement;
+        String sql = "update users set email=?, pass=? where ";
+        if (user.getId() != null) {
+            sql += " id=?";
+            statement = conn.prepareStatement(sql);
+            statement.setString(3, user.getId());
+        } else {
+            statement = conn.prepareStatement(sql);
+            sql += " firstName=? and lastName=?";
+            statement.setString(3, user.getFirstName());
+            statement.setString(4, user.getLastName());
+        }
         statement.setString(1, user.getEmail());
         statement.setString(2, user.getPassword());
-        statement.setString(3, user.getFirstName());
-        statement.setString(4, user.getLastName());
 
         //Execute the query
         statement.executeUpdate();
@@ -74,5 +83,25 @@ public class UserStorage extends Storage {
         //Execute the query
         statement.executeUpdate();
         conn.close();
+    }
+
+    public User getUser(String email, String password) throws SQLException {
+        Connection conn = this.getConnection();
+        String sql = "select * from users where email=? and pass=?";
+        PreparedStatement statement = conn.prepareStatement(sql);
+        statement.setString(1, email);
+        statement.setString(2, password);
+
+        ResultSet set = statement.executeQuery();
+        while(set.next()) {
+            return new User(
+                    set.getString(1),
+                    set.getString(2),
+                    set.getString(3),
+                    set.getString(4),
+                    set.getString(5));
+        }
+
+        return null;
     }
 }

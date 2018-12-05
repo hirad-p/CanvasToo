@@ -1,21 +1,24 @@
 package model;
 
 public class Event {
+    private String id;
     private String title;
     private String startTime;
     private String endTime;
     private String startDate;
     private String endDate;
     private String recurring;
+    private String classID;
 
     //constructor
-    public Event(String title, String startTime, String endTime, String startDate, String endDate, String recurring) {
+    public Event(String title, String startTime, String endTime, String startDate, String endDate, String recurring, String classId) {
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;
         this.startDate = startDate;
         this.endDate = endDate;
         this.recurring = recurring;
+        this.classID = classId;
     }
 
     //setters
@@ -43,6 +46,13 @@ public class Event {
         this.recurring = recurring;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setClassID(String classID) {
+        this.classID = classID;
+    }
 
     //getters
     public String getTitle() {
@@ -69,4 +79,9 @@ public class Event {
         return recurring;
     }
 
+    public String getId() { return id; }
+
+    public String getClassID() {
+        return classID;
+    }
 }

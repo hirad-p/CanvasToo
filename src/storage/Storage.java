@@ -19,7 +19,6 @@ public class Storage {
         String pass = props.getProperty("MYSQL_DB_PASSWORD");
         Connection connection = null;
         try {
-//            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(url, user, pass);
             connection.setAutoCommit(true);
         } catch (SQLException e) {
