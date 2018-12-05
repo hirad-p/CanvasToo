@@ -2,6 +2,7 @@ package model;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.Comparator;
 
 public class LectureClass {
     private String classID;
@@ -12,16 +13,28 @@ public class LectureClass {
     private Date endDate;
     private String recurring;
 
+    public static Comparator<LectureClass> getComparator() {
+        return new Comparator<LectureClass>() {
+            public int compare(LectureClass lectureClass1, LectureClass lectureClass2) {
+                return lectureClass1.getClassID().compareTo(lectureClass1.getClassID());
+            }
+        };
+    }
+
     //constructor
     public LectureClass(String classID) {
         this.classID = classID;
     }
 
-    public LectureClass(String classID, String title, String startTime, String endTime, String startDate, String endDate, String recurring) {
-        this.classID = classID;
+    public LectureClass(String classID, String title, String startTime, String endTime) {
+        this(classID);
         this.title = title;
         this.startTime = Time.valueOf(startTime);
         this.endTime = Time.valueOf(endTime);
+    }
+
+    public LectureClass(String classID, String title, String startTime, String endTime, String startDate, String endDate, String recurring) {
+        this(classID, title, startTime, endTime);
         this.startDate = Date.valueOf(startDate);
         this.endDate = Date.valueOf(endDate);
         this.recurring = recurring;
@@ -30,6 +43,38 @@ public class LectureClass {
     //getters
     public String getClassID() {
         return classID;
+    }
+
+    public String get(String key) {
+        if (key.equals("id")) {
+            return classID;
+        }
+
+        if (key.equals("title")) {
+            return title;
+        }
+
+        if (key.equals("startTime")) {
+            return startTime.toString();
+        }
+
+        if (key.equals("endTime")) {
+            return endTime.toString();
+        }
+
+        if (key.equals("startDate")) {
+            return startDate.toString();
+        }
+
+        if (key.equals("endDate")) {
+            return endDate.toString();
+        }
+
+        if (key.equals("recurring")) {
+            return recurring;
+        }
+
+        return "";
     }
 
     //setters

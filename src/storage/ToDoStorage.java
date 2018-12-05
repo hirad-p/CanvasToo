@@ -18,6 +18,33 @@ public class ToDoStorage extends Storage {
         return null;
     }
 
+    public ArrayList<ToDo> getTodos(User user, LectureClass lectureClass) throws SQLException {
+        Connection conn = getConnection();
+        PreparedStatement statement;
+        String sql = "select * from todos where uID=?";
+        if (lectureClass != null) {
+            sql += " and classId=?";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, user.getId());
+            statement.setString(2, lectureClass.getClassID());
+        } else {
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, user.getId());
+        }
+
+        ResultSet set = statement.executeQuery();
+        ArrayList<ToDo> list = new ArrayList<>();
+        while (set.next()) {
+            list.add(new ToDo(
+                    set.getString("title"),
+                    set.getString("due"),
+                    set.getString("reminder"),
+                    set.getString("classID")
+            ));
+        }
+        return list;
+    }
+
     /**
      * FUNCTION REQUIREMENT 19
      * Getting all users with no todos
