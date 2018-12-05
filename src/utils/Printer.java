@@ -1,7 +1,7 @@
 package utils;
 
 import model.LectureClass;
-import model.NoteCount;
+import model.Count;
 import model.ToDo;
 import model.User;
 
@@ -25,9 +25,9 @@ public class Printer {
         System.out.println(c.getClassID() + " - " + c.getTitle());
     }
 
-    public static void printNoteCounts(ArrayList<NoteCount> counts) {
-        for (NoteCount c : counts) {
-            System.out.println(c.classId + " " + c.count);
+    public static void printNoteCounts(ArrayList<Count> counts) {
+        for (Count c : counts) {
+            System.out.println(c.id + " " + c.count);
         }
     }
 

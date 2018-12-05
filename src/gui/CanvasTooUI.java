@@ -4,6 +4,7 @@ import gui.dialog.LoginDialog;
 import gui.dialog.SettingsDialog;
 import gui.dialog.SignUpDialog;
 import gui.diplayer.ClassesDisplayer;
+import gui.diplayer.EventDisplayer;
 import gui.diplayer.NotesDisplayer;
 import gui.diplayer.TodoDisplayer;
 import model.User;
@@ -71,13 +72,13 @@ public class CanvasTooUI {
         for (JButton button : buttons) {
             buttonPanel.add(button);
         }
-        welcomePanel.add(buttonPanel, BorderLayout.PAGE_END);
+        welcomePanel.add(buttonPanel, BorderLayout.CENTER);
         changeScreen(welcomePanel, 300, 75);
     }
 
     private void mainMenu() {
         menuPanel = new JPanel();
-        menuPanel.setLayout(new GridLayout(1, 1));
+        menuPanel.setLayout(new GridLayout(2, 1));
 
         JButton classBtn, notesBtn, todoBtn, eventsBtn, settingsBtn;
         JPanel buttonPanel;
@@ -109,6 +110,8 @@ public class CanvasTooUI {
         eventsBtn = new JButton("Events");
         eventsBtn.addActionListener(e -> {
             System.out.println("Clicked on events");
+            EventDisplayer eventDisplayer = new EventDisplayer(this);
+            eventDisplayer.setVisible(true);
         });
 
         settingsBtn = new JButton("Settings");
@@ -127,8 +130,11 @@ public class CanvasTooUI {
         }
 
         JLabel welcomeLabel = new JLabel("Hello, " + user.getFirstName());
-        menuPanel.add(welcomeLabel, BorderLayout.NORTH);
-        menuPanel.add(buttonPanel, BorderLayout.CENTER);
+        JPanel welcomePanel = new JPanel();
+        welcomePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        welcomePanel.add(welcomeLabel);
+        menuPanel.add(welcomePanel);
+        menuPanel.add(buttonPanel);
         changeScreen(menuPanel, 250, 300);
     }
 

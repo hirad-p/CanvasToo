@@ -4,7 +4,7 @@ import gui.CanvasTooUI;
 import gui.diplayer.dialog.AddEditNoteDialog;
 import model.LectureClass;
 import model.Note;
-import model.NoteCount;
+import model.Count;
 import model.User;
 import storage.LectureClassStorage;
 import storage.NotesStorage;
@@ -37,13 +37,13 @@ public class NotesDisplayer extends JDialog {
         Container container = getContentPane();
 
         try {
-            ArrayList<NoteCount> counts = storage.getNotesPerClass(user);
+            ArrayList<Count> counts = storage.getNotesPerClass(user);
             classes = lectureClassStorage.getClasses(user);
             tabbedPane = new JTabbedPane();
             for (LectureClass lectureClass : classes) {
                 int count = 0;
-                for (NoteCount noteCount : counts) {
-                    if (noteCount.classId.equals(lectureClass.getClassID())) {
+                for (Count noteCount : counts) {
+                    if (noteCount.id.equals(lectureClass.getClassID())) {
                         count = noteCount.count;
                         break;
                     }
