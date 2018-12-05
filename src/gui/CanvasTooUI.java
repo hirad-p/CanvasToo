@@ -4,6 +4,7 @@ import gui.dialog.LoginDialog;
 import gui.dialog.SettingsDialog;
 import gui.dialog.SignUpDialog;
 import gui.diplayer.ClassesDisplayer;
+import gui.diplayer.NotesDisplayer;
 import model.User;
 
 import javax.swing.*;
@@ -90,9 +91,11 @@ public class CanvasTooUI {
             classesDisplayer.setVisible(true);
         });
 
-        notesBtn = new JButton("Notes");
+        notesBtn = new JButton("Note");
         notesBtn.addActionListener(e -> {
             System.out.println("Clicked on notes");
+            NotesDisplayer notesDisplayer = new NotesDisplayer(this);
+            notesDisplayer.setVisible(true);
         });
 
         todoBtn = new JButton("Todos");
@@ -120,6 +123,8 @@ public class CanvasTooUI {
             buttonPanel.add(b, gbc);
         }
 
+        JLabel welcomeLabel = new JLabel("Hello, " + user.getFirstName());
+        menuPanel.add(welcomeLabel, BorderLayout.NORTH);
         menuPanel.add(buttonPanel, BorderLayout.CENTER);
         changeScreen(menuPanel, 250, 300);
     }

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-
 public class ClassesDisplayer extends JDialog {
     public CanvasTooUI canvas;
     private ArrayList<LectureClass> classes;

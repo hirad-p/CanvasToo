@@ -81,7 +81,7 @@ public class UserCLI {
         System.out.println("Welcome " + user.getFirstName() + "!");
         System.out.println("Please select from the following options:");
         System.out.println("[1] Classes");
-        System.out.println("[2] Notes");
+        System.out.println("[2] Note");
         System.out.println("[3] Todos");
         System.out.println("[4] Events");
         System.out.println("[5] Settings");
