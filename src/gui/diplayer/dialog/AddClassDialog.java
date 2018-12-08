@@ -13,14 +13,14 @@ public class AddClassDialog extends JDialog {
     private Container container;
     private JLabel idL, titleL, startTimeL, endTimeL, startDateL, endDateL, recurringL, invalid;
     private JTextField  id, title, startTime, endTime, startDate, endDate, recurring;
-    private JButton addButton, resetButton;
+    private JButton addButton, resetButton, backButton;
 
     private User user;
     private LectureClassStorage lectureClassStorage;
     private ClassesDisplayer displayer;
 
     public AddClassDialog(ClassesDisplayer displayer) {
-        super(displayer.canvas.frame, "Login", true);
+        super(displayer.canvas.frame, "Add Class", true);
         this.displayer = displayer;
         user = displayer.canvas.getUser();
         lectureClassStorage = new LectureClassStorage();
@@ -64,9 +64,12 @@ public class AddClassDialog extends JDialog {
         addButton.addActionListener(e -> add());
         resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> reset());
+        addButton.addActionListener(e -> add());
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> back());
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(addButton); buttonPanel.add(resetButton);
+        buttonPanel.add(addButton); buttonPanel.add(resetButton); buttonPanel.add(backButton);
         container.add(invalid); container.add(buttonPanel);
 
         pack();
@@ -74,7 +77,12 @@ public class AddClassDialog extends JDialog {
         setLocationRelativeTo(displayer.canvas.frame);
     }
 
-    public User user() {
+    private void back() {
+		// TODO Auto-generated method stub
+		dispose();
+	}
+
+	public User user() {
         return user;
     }
 

@@ -13,7 +13,7 @@ public class LoginDialog extends JDialog {
     private JLabel email, pass, invalid;
     private JTextField emailField;
     private JPasswordField passField;
-    private JButton loginButton, resetButton;
+    private JButton loginButton, resetButton, backButton;
 
     private User user;
     private UserStorage storage;
@@ -46,9 +46,11 @@ public class LoginDialog extends JDialog {
         loginButton.addActionListener(e -> login());
         resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> reset());
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> back());
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(loginButton); buttonPanel.add(resetButton);
+        buttonPanel.add(loginButton); buttonPanel.add(resetButton); buttonPanel.add(backButton);
         container.add(invalid); container.add(buttonPanel);
 
         pack();
@@ -56,7 +58,12 @@ public class LoginDialog extends JDialog {
         setLocationRelativeTo(parent);
     }
 
-    public boolean success() {
+    private void back() {
+		// TODO Auto-generated method stub
+		dispose();
+	}
+
+	public boolean success() {
         return this.success;
     }
 

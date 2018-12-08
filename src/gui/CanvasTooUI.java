@@ -88,12 +88,13 @@ public class CanvasTooUI {
 
     private void mainMenu() {
         menuPanel = new JPanel();
-        menuPanel.setLayout(new GridLayout(2, 1));
-
-        JButton classBtn, notesBtn, todoBtn, eventsBtn, settingsBtn;
+        //menuPanel.setLayout(new GridLayout(2, 1));
+        menuPanel.setLayout(new BorderLayout());
+        
+        JButton classBtn, notesBtn, todoBtn, eventsBtn, settingsBtn, LogOutBtn;
         JPanel buttonPanel;
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridBagLayout());
+        buttonPanel.setLayout(new GridLayout(0, 1, 0, 10));
 
 
         classBtn = new JButton("Classes");
@@ -130,21 +131,30 @@ public class CanvasTooUI {
             SettingsDialog settings = new SettingsDialog(this, frame);
             settings.setVisible(true);
         });
+        
+        LogOutBtn = new JButton("Log Out");
+        LogOutBtn.addActionListener(e -> {
+            System.out.println("Clicked on Log Out");
+            welcomeScreen();
+        });
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        JButton[] buttons = {classBtn, notesBtn, todoBtn, eventsBtn, settingsBtn};
+       // GridBagConstraints gbc = new GridBagConstraints();
+       //gbc.gridwidth = GridBagConstraints.REMAINDER;
+       // gbc.fill = GridBagConstraints.HORIZONTAL;
+        JButton[] buttons = {classBtn, notesBtn, todoBtn, eventsBtn, settingsBtn, LogOutBtn};
         for (JButton b : buttons) {
-            buttonPanel.add(b, gbc);
+            //buttonPanel.add(b, gbc);
+            buttonPanel.add(b);
         }
 
         JLabel welcomeLabel = new JLabel("Hello, " + user.getFirstName());
+        welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
+        welcomeLabel.setFont(new Font("Serif", Font.BOLD, 18));
         JPanel welcomePanel = new JPanel();
-        welcomePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         welcomePanel.add(welcomeLabel);
-        menuPanel.add(welcomePanel);
-        menuPanel.add(buttonPanel);
+        menuPanel.add(welcomePanel, BorderLayout.NORTH);
+        menuPanel.add(buttonPanel, BorderLayout.CENTER);
+        //changeScreen(menuPanel, 250, 300);
         changeScreen(menuPanel, 250, 300);
     }
 
@@ -155,7 +165,8 @@ public class CanvasTooUI {
 
     private void changeScreen(JComponent component, int width, int height) {
         frame.setContentPane(component);
-        frame.setSize(width, height);
+        //frame.setSize(width, height);
+        frame.pack();
         frame.validate();
         frame.repaint();
     }

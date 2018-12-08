@@ -51,7 +51,7 @@ public class ClassesDisplayer extends JDialog {
 
         createTable();
 
-        JButton delete, edit, add;
+        JButton delete, edit, add, back;
         delete = new JButton("Delete");
         delete.setOpaque(true);
         delete.addActionListener(e -> {
@@ -86,6 +86,12 @@ public class ClassesDisplayer extends JDialog {
             AddClassDialog addDialog = new AddClassDialog(this);
             addDialog.setVisible(true);
         });
+        
+        back = new JButton("Back");
+        back.addActionListener(e -> {
+            System.out.println("Clicked on back");
+            dispose();
+        });
 
         JPanel buttonPanel;
         buttonPanel = new JPanel();
@@ -96,6 +102,7 @@ public class ClassesDisplayer extends JDialog {
         buttonPanel.add(delete, gbc);
         buttonPanel.add(edit, gbc);
         buttonPanel.add(add, gbc);
+        buttonPanel.add(back, gbc);
 
         container.setLayout(new BorderLayout());
         container.add(table.getTableHeader(), BorderLayout.PAGE_START);

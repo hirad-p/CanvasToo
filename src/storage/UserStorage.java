@@ -36,6 +36,8 @@ public class UserStorage extends Storage {
                 System.out.println("User created with id of " + user.getId());
             }
         }
+        
+        conn.close();
     }
 
     /**
