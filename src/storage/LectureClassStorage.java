@@ -111,26 +111,39 @@ public class LectureClassStorage extends Storage {
      * @param classes
      * @return
      */
-    public ArrayList<User> getUsersFromClasses(LectureClass[] classes) throws SQLException {
-        StringBuilder builder = new StringBuilder();
+    public ArrayList<User> getUsersFromClasses(String class1, String class2) throws SQLException {
+        /*StringBuilder builder = new StringBuilder();
         for (int i = 0; i < classes.length; i++) {
             builder.append("select users.firstName, users.lastName from users join classes on (users.id = classes.uID) where classes.id = \"");
             builder.append(classes[i].getClassID());
             if (i < classes.length - 1) {
                 builder.append("\" intersect ");
             }
-        }
-        System.out.println(builder);
+        }*/
+    	
+        //System.out.println(builder);
 
+    	String sql = "select table1.firstname, table1.lastname " 
+    			   + "from (select users.id, users.firstname, users.lastname, classes.title "  
+    			   + "from users,classes " 
+    			   + "where users.id = classes.uID and classes.id =? ) as table1 " 
+    			   + "where table1.id in " 
+    			   + "(select table2.id " 
+    			   + "from (select users.id, users.firstname, users.lastname, classes.title " 
+    			   + "from users,classes " 
+    			   +"where users.id = classes.uID and classes.id =? ) as table2)";
+    				
         Connection connection = this.getConnection();
-        PreparedStatement statement = connection.prepareStatement(builder.toString());
+        PreparedStatement statement = connection.prepareStatement(sql);
+    	//set the parameters 
+		statement.setString(1, class1);
+		statement.setString(2, class2);
         ResultSet set = statement.executeQuery();
         ArrayList<User> list = new ArrayList<>();
         while (set.next()) {
             list.add(new User(
                     set.getString("firstName"),
-                    set.getString("lastName"),
-                    set.getString("email")
+                    set.getString("lastName")
             ));
         }
         return list;

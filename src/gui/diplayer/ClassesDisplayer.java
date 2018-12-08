@@ -3,6 +3,7 @@ package gui.diplayer;
 import gui.CanvasTooUI;
 import gui.diplayer.dialog.AddClassDialog;
 import gui.diplayer.util.LectureClassChange;
+import model.Count;
 import model.LectureClass;
 import model.User;
 import storage.LectureClassStorage;
@@ -13,6 +14,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -117,6 +121,8 @@ public class ClassesDisplayer extends JDialog {
         pack();
         setResizable(false);
         setLocationRelativeTo(canvas.frame);
+        
+        checkRequirement20();
     }
 
     public void AddClass(LectureClass c) {
@@ -168,5 +174,37 @@ public class ClassesDisplayer extends JDialog {
         }
 
         return data;
+    }
+    
+    private void checkRequirement20() {
+    	Scanner sc = new Scanner(System.in); 
+    	System.out.println("get students in the same two classes");
+    	
+    	System.out.println("Enter class 1: ");
+    	String class1 = sc.nextLine();
+    	
+    	System.out.println("Enter class 2: ");
+    	String class2 = sc.nextLine();
+    	
+    	ArrayList<User> list = new ArrayList<>();
+    	
+    	try {
+			list = lectureClassStorage.getUsersFromClasses(class1, class2);
+			
+			for (int j = 0; j < list.size(); j++)
+	        {
+	            System.out.println(list.get(j).getFirstName() + list.get(j).getLastName());
+	        }
+			
+			if(list.size() == 0) {
+				System.out.println("there are no same users in these two classes");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	sc.close();
+    
     }
 }
