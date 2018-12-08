@@ -80,7 +80,7 @@ public class EventStorage extends Storage {
     }
 
     public ArrayList<Count> getEventsPerClass(User user) throws SQLException {
-        String sql =  "select classes.id, count(notes.id) " +
+        String sql =  "select classes.id, count(events.id) " +
                 "from classes join events on " +
                 "classes.id=events.classID and " +
                 "classes.uID = ? and " +

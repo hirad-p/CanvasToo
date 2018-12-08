@@ -13,7 +13,7 @@ public class SignUpDialog extends JDialog {
     private JLabel first, last, email, pass, invalid;
     private JTextField firstField, lastField, emailField;
     private JPasswordField passField;
-    private JButton loginButton, resetButton;
+    private JButton loginButton, resetButton, backButton;
 
     private User user;
     private UserStorage storage;
@@ -22,17 +22,18 @@ public class SignUpDialog extends JDialog {
     private boolean success;
 
     public SignUpDialog(CanvasTooUI canvas, JFrame parent) {
-        super(parent, "Login", true);
+        super(parent, "Sign Up", true);
         this.canvas = canvas;
         storage = new UserStorage();
         user = null;
 
         container = getContentPane();
-        container.setLayout(new BorderLayout());
-
+        //container.setLayout(new BorderLayout());
+        container.setLayout(new GridLayout(5, 2));
+        
         // form
-        JPanel formPanel =  new JPanel();
-        formPanel.setLayout(new GridLayout(5, 2));
+        //JPanel formPanel =  new JPanel();
+        //formPanel.setLayout(new GridLayout(5, 2));
 
         first = new JLabel("First Name: ");
         firstField = new JTextField();
@@ -44,27 +45,34 @@ public class SignUpDialog extends JDialog {
         passField = new JPasswordField();
         invalid = new JLabel();
         invalid.setForeground(Color.red);
-        formPanel.add(first); formPanel.add(firstField); formPanel.add(last); formPanel.add(lastField);
-        formPanel.add(email); formPanel.add(emailField); formPanel.add(pass); formPanel.add(passField);
-        formPanel.add(invalid);
-        container.add(formPanel, BorderLayout.CENTER);
+        container.add(first); container.add(firstField); container.add(last); container.add(lastField);
+        container.add(email); container.add(emailField); container.add(pass); container.add(passField);
+        container.add(invalid);
+        //container.add(formPanel, BorderLayout.CENTER);
 
         // buttons
-        loginButton = new JButton("Signup");
+        loginButton = new JButton("Sign Up");
         loginButton.addActionListener(e -> signUp());
         resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> reset());
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> back());
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(loginButton); buttonPanel.add(resetButton);
-        container.add(buttonPanel, BorderLayout.PAGE_END);
+        buttonPanel.add(loginButton); buttonPanel.add(resetButton); buttonPanel.add(backButton);
+        container.add(buttonPanel);
 
         pack();
         setResizable(false);
         setLocationRelativeTo(parent);
     }
 
-    public boolean success() {
+    private void back() {
+		// TODO Auto-generated method stub
+		dispose();
+	}
+
+	public boolean success() {
         return this.success;
     }
 

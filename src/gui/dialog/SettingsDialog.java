@@ -28,11 +28,11 @@ public class SettingsDialog extends JDialog {
         user = canvas.getUser();
 
         container = getContentPane();
-        container.setLayout(new BorderLayout());
+        container.setLayout(new GridLayout(3, 2));
 
         // form
-        JPanel formPanel =  new JPanel();
-        formPanel.setLayout(new GridLayout(3, 2));
+        //JPanel formPanel =  new JPanel();
+        //formPanel.setLayout(new GridLayout(3, 2));
 
         email = new JLabel("Email: ");
         emailField = new JTextField();
@@ -40,19 +40,19 @@ public class SettingsDialog extends JDialog {
         passField = new JPasswordField();
         invalid = new JLabel();
         invalid.setForeground(Color.red);
-        formPanel.add(email); formPanel.add(emailField); formPanel.add(pass); formPanel.add(passField);
-        formPanel.add(invalid);
-        container.add(formPanel, BorderLayout.CENTER);
+        container.add(email); container.add(emailField); container.add(pass); container.add(passField);
+        container.add(invalid);
+       // container.add(formPanel, BorderLayout.CENTER);
 
         // buttons
-        doneButton = new JButton("Signup");
+        doneButton = new JButton("Update");
         doneButton.addActionListener(e -> edit());
         resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> reset());
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
         buttonPanel.add(doneButton); buttonPanel.add(resetButton);
-        container.add(buttonPanel, BorderLayout.PAGE_END);
+        container.add(buttonPanel);
 
         pack();
         setResizable(false);

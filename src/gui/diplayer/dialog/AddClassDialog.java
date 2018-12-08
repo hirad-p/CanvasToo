@@ -7,55 +7,178 @@ import storage.LectureClassStorage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 
 public class AddClassDialog extends JDialog {
     private Container container;
     private JLabel idL, titleL, startTimeL, endTimeL, startDateL, endDateL, recurringL, invalid;
-    private JTextField  id, title, startTime, endTime, startDate, endDate, recurring;
-    private JButton addButton, resetButton;
+    private JTextField  id, title, startTime, endTime, startDate, endDate;
+    private String recurring = "";
+    private JButton addButton, resetButton, backButton;
+    private JCheckBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
+
+    private boolean success;
 
     private User user;
     private LectureClassStorage lectureClassStorage;
     private ClassesDisplayer displayer;
 
     public AddClassDialog(ClassesDisplayer displayer) {
-        super(displayer.canvas.frame, "Login", true);
+        super(displayer.canvas.frame, "Add Class", true);
         this.displayer = displayer;
         user = displayer.canvas.getUser();
         lectureClassStorage = new LectureClassStorage();
 
         container = getContentPane();
-        container.setLayout(new GridLayout(8, 2));
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 
-        idL = new JLabel("Id: ");
+        JPanel holder = new JPanel();
+        holder.setLayout(new GridLayout(7, 2));
+        
+        idL = new JLabel("Id (Ex.CS 157): ");
         id = new JTextField();
-        container.add(idL); container.add(id);
+        holder.add(idL); holder.add(id);
 
-        titleL = new JLabel("Title: ");
+        titleL = new JLabel("Title (Ex. Database): ");
         title = new JTextField();
-        container.add(titleL); container.add(title);
+        holder.add(titleL); holder.add(title);
 
-        startTimeL = new JLabel("Start Time: ");
+        startTimeL = new JLabel("Start Time (Format: hh:mm:ss): ");
         startTime = new JTextField();
-        container.add(startTimeL); container.add(startTime);
+        holder.add(startTimeL); holder.add(startTime);
 
-        endTimeL = new JLabel("End Time: ");
+        endTimeL = new JLabel("End Time (Format: hh:mm:ss): ");
         endTime = new JTextField();
-        container.add(endTimeL); container.add(endTime);
+        holder.add(endTimeL); holder.add(endTime);
 
-        startDateL = new JLabel("Start Date: ");
+        startDateL = new JLabel("Start Date (Format: yyyy-mm-dd): ");
         startDate = new JTextField();
-        container.add(startDateL); container.add(startDate);
+        holder.add(startDateL); holder.add(startDate);
 
-        endDateL = new JLabel("End Date: ");
+        endDateL = new JLabel("End Date (Format: yyyy-mm-dd): ");
         endDate = new JTextField();
-        container.add(endDateL); container.add(endDate);
+        holder.add(endDateL); holder.add(endDate);
+        
+        container.add(holder);
 
-        // @todo - switch to radio buttons
+        // @todo - switch to check boxes
         recurringL = new JLabel("Recurring: ");
-        recurring = new JTextField();
-        container.add(recurringL); container.add(recurring);
+        //recurring = new JTextField();
+        container.add(recurringL); //container.add(recurring);
+        
+        JPanel holder2 = new JPanel();
+        holder2.setLayout(new GridLayout(1, 2));
+        
+        holder2.add(recurringL);
+        
+        JPanel cBoxes = new JPanel();
+        cBoxes.setLayout(new GridLayout(0, 1));
+        
+        monday = new JCheckBox("Monday");
+        monday.setMnemonic(KeyEvent.VK_M); 
+        monday.setSelected(false);
+        
+        tuesday = new JCheckBox("Tuesday");
+        tuesday.setMnemonic(KeyEvent.VK_T); 
+        tuesday.setSelected(false);
+        
+        wednesday = new JCheckBox("Wednesday");
+        wednesday.setMnemonic(KeyEvent.VK_W); 
+        wednesday.setSelected(false);
+
+        thursday = new JCheckBox("Thursday");
+        thursday.setMnemonic(KeyEvent.VK_H); 
+        thursday.setSelected(false);
+        
+        friday = new JCheckBox("Friday");
+        friday.setMnemonic(KeyEvent.VK_F); 
+        friday.setSelected(false);
+        
+        saturday = new JCheckBox("Saturday");
+        saturday.setMnemonic(KeyEvent.VK_S); 
+        saturday.setSelected(false);
+        
+        sunday = new JCheckBox("Sunday");
+        sunday.setMnemonic(KeyEvent.VK_U); 
+        sunday.setSelected(false);
+        
+        cBoxes.add(monday);
+        cBoxes.add(tuesday);
+        cBoxes.add(wednesday);
+        cBoxes.add(thursday);
+        cBoxes.add(friday);
+        cBoxes.add(saturday);
+        cBoxes.add(sunday);
+        
+        holder2.add(cBoxes);
+        container.add(holder2);
+        
+        //listener for the check boxes.
+        monday.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {             
+            	recurring+="M"; 
+            	if (e.getStateChange() == ItemEvent.DESELECTED) {
+            		recurring.replace("M", "");
+                }
+             }
+          });
+      
+        tuesday.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {             
+            	recurring+="TU"; 
+            	if (e.getStateChange() == ItemEvent.DESELECTED) {
+            		recurring.replace("TU", "");
+                }
+             }
+          });
+        
+        wednesday.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {             
+            	recurring+="W"; 
+            	if (e.getStateChange() == ItemEvent.DESELECTED) {
+            		recurring.replace("W", "");
+                }
+             }
+          });
+        
+        thursday.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {             
+            	recurring+="TH"; 
+            	if (e.getStateChange() == ItemEvent.DESELECTED) {
+            		recurring.replace("TH", "");
+                }
+             }
+          });
+        
+        friday.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {             
+            	recurring+="F"; 
+            	if (e.getStateChange() == ItemEvent.DESELECTED) {
+            		recurring.replace("F", "");
+                }
+             }
+          });
+        
+        saturday.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {             
+            	recurring+="SA"; 
+            	if (e.getStateChange() == ItemEvent.DESELECTED) {
+            		recurring.replace("SA", "");
+                }
+             }
+          });
+        
+        sunday.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {             
+            	recurring+="SU"; 
+            	if (e.getStateChange() == ItemEvent.DESELECTED) {
+            		recurring.replace("SU", "");
+                }
+             }
+          });
 
         // buttons
         invalid = new JLabel();
@@ -64,35 +187,52 @@ public class AddClassDialog extends JDialog {
         addButton.addActionListener(e -> add());
         resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> reset());
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> back());
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(addButton); buttonPanel.add(resetButton);
-        container.add(invalid); container.add(buttonPanel);
+        JPanel holder3 = new JPanel();
+        holder3.setLayout(new BorderLayout());
+        buttonPanel.add(addButton); buttonPanel.add(resetButton); buttonPanel.add(backButton);
+        holder3.add(invalid, BorderLayout.WEST); holder3.add(buttonPanel, BorderLayout.EAST);
+        container.add(holder3);
 
         pack();
         setResizable(false);
         setLocationRelativeTo(displayer.canvas.frame);
     }
+    
+    private void back() {
+		// TODO Auto-generated method stub
+		dispose();
+	}
 
-    public User user() {
+	public User user() {
         return user;
     }
 
     private void add() {
         try {
-            LectureClass c = new LectureClass(
-                    id.getText(),
-                    title.getText(),
-                    startTime.getText(),
-                    endTime.getText(),
-                    startDate.getText(),
-                    endDate.getText(),
-                    recurring.getText()
-            );
-            lectureClassStorage.addClass(c, user);
-            this.displayer.AddClass(c);
-        } catch (SQLException exception) {
+            success = !(id.getText().isEmpty() && title.getText().isEmpty() && 
+            		startTime.getText().isEmpty() && endTime.getText().isEmpty() 
+            		&& startDate.getText().isEmpty() && endDate.getText().isEmpty());
+
+            if (success) {
+            	LectureClass c = new LectureClass(
+                        id.getText(),
+                        title.getText(),
+                        startTime.getText(),
+                        endTime.getText(),
+                        startDate.getText(),
+                        endDate.getText(),
+                        recurring
+                );
+                lectureClassStorage.addClass(c, user);
+                displayer.AddClass(c);
+                dispose();
+            }
             handleInvalid();
+        } catch (SQLException exception) {
             exception.printStackTrace();
         }
     }
@@ -100,6 +240,7 @@ public class AddClassDialog extends JDialog {
     private void handleInvalid() {
         invalid.setText("Unable to add class");
         repaint();
+        success = false;
     }
 
     private void reset() {
@@ -109,6 +250,10 @@ public class AddClassDialog extends JDialog {
         endTime.setText("");
         startDate.setText("");
         endDate.setText("");
-        recurring.setText("");
+        recurring = "";
+    }
+    
+    public boolean success() {
+        return this.success;
     }
 }

@@ -19,7 +19,7 @@ public class AddTodoDialog extends JDialog {
     private JLabel titleL, classL, reminderL, dueL, invalid;
     private JTextField  title, reminder, due;
     private JComboBox<String> classIds;
-    private JButton addButton, resetButton;
+    private JButton addButton, resetButton, backButton;
 
     private User user;
     private ToDoStorage storage;
@@ -49,11 +49,11 @@ public class AddTodoDialog extends JDialog {
         container.add(classL); container.add(classIds);
 
         // @todo better input type
-        reminderL = new JLabel("Reminder (0000-00-00 00:00:00): ");
+        reminderL = new JLabel("Reminder (Format: yyyy-mm-dd hh:mm:ss): ");
         reminder = new JTextField();
         container.add(reminderL); container.add(reminder);
 
-        dueL = new JLabel("Due (0000-00-00 00:00:00): ");
+        dueL = new JLabel("Due (Format: yyyy-mm-dd hh:mm:ss): ");
         due = new JTextField();
         container.add(dueL); container.add(due);
 
@@ -64,9 +64,12 @@ public class AddTodoDialog extends JDialog {
         addButton.addActionListener(e -> add());
         resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> reset());
+        addButton.addActionListener(e -> add());
+        backButton = new JButton("Back");
+        backButton.addActionListener(e -> dispose());
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(addButton); buttonPanel.add(resetButton);
+        buttonPanel.add(addButton); buttonPanel.add(resetButton); buttonPanel.add(backButton);
         container.add(invalid); container.add(buttonPanel);
 
         pack();

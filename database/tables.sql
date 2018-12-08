@@ -56,7 +56,7 @@ CREATE TABLE notes(
     classID VARCHAR(10),
     PRIMARY KEY (id),
     FOREIGN KEY (uID) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (classID) REFERENCES classes(id)
+    FOREIGN KEY (classID) REFERENCES classes(id) 
 );
 
 DROP TABLE IF EXISTS events;
@@ -74,5 +74,5 @@ CREATE TABLE events(
     classID VARCHAR(10),
     PRIMARY KEY (id),
     FOREIGN KEY (uID) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (classID) REFERENCES classes(id)
+    FOREIGN KEY (classID) REFERENCES classes(id) 
 );

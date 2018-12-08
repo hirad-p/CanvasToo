@@ -24,6 +24,8 @@ public class ClassesDisplayer extends JDialog {
     private LectureClassStorage lectureClassStorage;
     private UserStorage userStorage;
     private JTable table;
+    
+    AddClassDialog addDialog;
 
     // @todo - come up with a framework for this
     private String[] columnNames = {"Id", "Title", "Start Time", "End Time", "Start Date", "End Date", "Recurring"};
@@ -51,7 +53,7 @@ public class ClassesDisplayer extends JDialog {
 
         createTable();
 
-        JButton delete, edit, add;
+        JButton delete, edit, add, back;
         delete = new JButton("Delete");
         delete.setOpaque(true);
         delete.addActionListener(e -> {
@@ -60,7 +62,9 @@ public class ClassesDisplayer extends JDialog {
                 for (int i : selected) {
                     try {
                         LectureClass c = classes.get(i);
+                        classes.remove(i);
                         lectureClassStorage.deleteClass(c.getClassID(), user.getId());
+                        dispose();
                     } catch (SQLException exception) {
                         exception.printStackTrace();
                     }
@@ -83,8 +87,15 @@ public class ClassesDisplayer extends JDialog {
         add = new JButton("Add");
         add.addActionListener(e -> {
             System.out.println("Clicked on add");
-            AddClassDialog addDialog = new AddClassDialog(this);
+            dispose();
+            addDialog = new AddClassDialog(this);
             addDialog.setVisible(true);
+        });
+        
+        back = new JButton("Back");
+        back.addActionListener(e -> {
+            System.out.println("Clicked on back");
+            dispose();
         });
 
         JPanel buttonPanel;
@@ -96,6 +107,7 @@ public class ClassesDisplayer extends JDialog {
         buttonPanel.add(delete, gbc);
         buttonPanel.add(edit, gbc);
         buttonPanel.add(add, gbc);
+        buttonPanel.add(back, gbc);
 
         container.setLayout(new BorderLayout());
         container.add(table.getTableHeader(), BorderLayout.PAGE_START);
@@ -111,7 +123,7 @@ public class ClassesDisplayer extends JDialog {
         classes.add(c);
         getContentPane().remove(table);
         createTable();
-        getContentPane().add(table, BorderLayout.CENTER);
+        getContentPane().add(table);
         repaint();
     }
 
@@ -131,7 +143,8 @@ public class ClassesDisplayer extends JDialog {
                 }
             }
         });
-        JScrollPane scrollPane = new JScrollPane(table);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.getViewport().add(table);
     }
 
     private Object[][] prepareData() {
