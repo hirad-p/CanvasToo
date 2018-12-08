@@ -85,7 +85,7 @@ public class EventDisplayer extends JDialog {
     }
 
     private JPanel createButtonPanel() {
-        JButton delete, edit, add;
+        JButton delete, edit, add, back;
         delete = new JButton("Delete");
         delete.addActionListener(e -> {
             System.out.println("Clicked on Delete");
@@ -93,6 +93,7 @@ public class EventDisplayer extends JDialog {
             System.out.println("Deleting note " + event.getId());
             try {
                 storage.deleteEvent(event);
+                dispose();
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }
@@ -113,16 +114,27 @@ public class EventDisplayer extends JDialog {
 //            AddEditNoteDialog addEditNoteDialog = new AddEditNoteDialog(this, classes, note, true);
 //            addEditNoteDialog.setVisible(true);
         });
+        
+        back = new JButton("Back");
+        back.addActionListener(e -> {
+            System.out.println("Clicked on back");
+            dispose();
+        });
 
         JPanel buttonPanel;
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridBagLayout());
+        buttonPanel.setLayout(new GridLayout(1, 0, 10, 0));
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.VERTICAL;
-        buttonPanel.add(delete, gbc);
-        buttonPanel.add(edit, gbc);
-        buttonPanel.add(add, gbc);
+        //GridBagConstraints gbc = new GridBagConstraints();
+        //gbc.fill = GridBagConstraints.VERTICAL;
+        //buttonPanel.add(delete, gbc);
+        //buttonPanel.add(edit, gbc);
+        //buttonPanel.add(add, gbc);
+        //buttonPanel.add(add, gbc); 
+        buttonPanel.add(delete);
+        buttonPanel.add(edit);
+        buttonPanel.add(add);
+        buttonPanel.add(back);
 
         return buttonPanel;
     }

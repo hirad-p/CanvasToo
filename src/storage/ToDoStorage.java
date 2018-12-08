@@ -42,11 +42,11 @@ public class ToDoStorage extends Storage {
 
     public void editToDo(ToDoChange change) throws SQLException {
         Connection conn = getConnection();
-        String sql = "update todos set ?=? where id=?";
+        String sql = "update todos set " + change.key + "=? where id=?";
         PreparedStatement statement = conn.prepareStatement(sql);
-        statement.setString(1, change.key);
-        statement.setString(2, change.value);
-        statement.setString(3, change.id);
+        //statement.setString(1, change.key);
+        statement.setString(1, change.value);
+        statement.setString(2, change.id);
         statement.executeUpdate();
     }
 

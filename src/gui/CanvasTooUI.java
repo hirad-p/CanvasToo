@@ -104,7 +104,7 @@ public class CanvasTooUI {
             classesDisplayer.setVisible(true);
         });
 
-        notesBtn = new JButton("Note");
+        notesBtn = new JButton("Notes");
         notesBtn.addActionListener(e -> {
             System.out.println("Clicked on notes");
             NotesDisplayer notesDisplayer = new NotesDisplayer(this);

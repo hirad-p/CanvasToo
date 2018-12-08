@@ -30,7 +30,7 @@ public class TodoDisplayer extends JDialog {
 
     private JTable table;
 
-    private String[] columns = {"Title, Reminder, Due, Class"};
+    private String[] columns = {"Title", "Reminder", "Due", "Class"};
     private String[] database = {"title", "reminder", "due", "classID"};
 
     public TodoDisplayer(CanvasTooUI canvas) {
@@ -54,7 +54,7 @@ public class TodoDisplayer extends JDialog {
 
         createTable();
 
-        JButton done, edit, add;
+        JButton done, edit, add, back;
         done = new JButton("Mark Done");
         done.addActionListener(e -> {
             System.out.println("Clicked on done");
@@ -63,6 +63,7 @@ public class TodoDisplayer extends JDialog {
                 try {
                     ToDo todo = todos.get(i);
                     storage.markDone(todo);
+                    dispose();
                 } catch (SQLException exception) {
                     exception.printStackTrace();
                 }
@@ -84,19 +85,31 @@ public class TodoDisplayer extends JDialog {
         add = new JButton("Add");
         add.addActionListener(e -> {
             System.out.println("Clicked on add");
+            dispose();
             AddTodoDialog dialog = new AddTodoDialog(this, classes);
             dialog.setVisible(true);
+        });
+        
+        back = new JButton("Back");
+        back.addActionListener(e -> {
+            System.out.println("Clicked on back");
+            dispose();
         });
 
         JPanel buttonPanel;
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridBagLayout());
+        buttonPanel.setLayout(new GridLayout(1, 0, 10, 0));
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.VERTICAL;
-        buttonPanel.add(done, gbc);
-        buttonPanel.add(edit, gbc);
-        buttonPanel.add(add, gbc);
+        //GridBagConstraints gbc = new GridBagConstraints();
+        //gbc.fill = GridBagConstraints.VERTICAL;
+        //buttonPanel.add(done, gbc);
+        //buttonPanel.add(edit, gbc);
+        //buttonPanel.add(add, gbc);
+        //buttonPanel.add(back, gbc);
+        buttonPanel.add(done);
+        buttonPanel.add(edit);
+        buttonPanel.add(add);
+        buttonPanel.add(back);
 
         container.setLayout(new BorderLayout());
         container.add(table.getTableHeader(), BorderLayout.PAGE_START);

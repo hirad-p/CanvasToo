@@ -15,7 +15,7 @@ public class NotesStorage extends Storage {
 
     public void addNote(Note note, User user, LectureClass lectureClass) throws SQLException{
         Connection conn = this.getConnection();
-        String sql = "insert into notes(title, body, uID, classID)" + "values (?, ?, ?, ?)";
+        String sql = "insert into notes(title, note, uID, classID) " + "values (?, ?, ?, ?)";
 
         // prepare statement
         PreparedStatement statement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
