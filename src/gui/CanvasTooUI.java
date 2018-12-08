@@ -20,9 +20,10 @@ public class CanvasTooUI {
     public CanvasTooUI() {
         frame = new JFrame("CanvasToo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+       
         welcomeScreen();
-
+        
+        frame.pack();
         frame.setVisible(true);
     }
 
@@ -39,8 +40,17 @@ public class CanvasTooUI {
         welcomePanel.setLayout(new BorderLayout());
         // welcome text
         JLabel welcomeLabel = new JLabel("Welcome to CanvasToo!");
+        welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
+        welcomeLabel.setFont(new Font("Serif", Font.BOLD, 18));
+        //welcomeLabel.setForeground(Color.RED);
         welcomePanel.add(welcomeLabel, BorderLayout.NORTH);
 
+        //logo
+        ImageIcon logo = new ImageIcon("src/CanvasTooLogo.jpg");
+        JLabel logoLabel = new JLabel(logo);
+        welcomePanel.add(logoLabel, BorderLayout.CENTER);
+        
+        
         JButton signup, login, admin;
         JPanel buttonPanel;
         buttonPanel = new JPanel();
@@ -72,7 +82,7 @@ public class CanvasTooUI {
         for (JButton button : buttons) {
             buttonPanel.add(button);
         }
-        welcomePanel.add(buttonPanel, BorderLayout.CENTER);
+        welcomePanel.add(buttonPanel, BorderLayout.SOUTH);
         changeScreen(welcomePanel, 300, 75);
     }
 
