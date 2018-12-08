@@ -149,7 +149,7 @@ public class CanvasTooUI {
 
         JLabel welcomeLabel = new JLabel("Hello, " + user.getFirstName());
         welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
-        welcomeLabel.setFont(new Font("Serif", Font.BOLD, 18));
+        welcomeLabel.setFont(new Font("Serif", Font.BOLD, 16));
         JPanel welcomePanel = new JPanel();
         welcomePanel.add(welcomeLabel);
         menuPanel.add(welcomePanel, BorderLayout.NORTH);

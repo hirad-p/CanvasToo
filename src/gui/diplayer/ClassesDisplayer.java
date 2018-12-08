@@ -24,6 +24,8 @@ public class ClassesDisplayer extends JDialog {
     private LectureClassStorage lectureClassStorage;
     private UserStorage userStorage;
     private JTable table;
+    
+    AddClassDialog addDialog;
 
     // @todo - come up with a framework for this
     private String[] columnNames = {"Id", "Title", "Start Time", "End Time", "Start Date", "End Date", "Recurring"};
@@ -60,7 +62,9 @@ public class ClassesDisplayer extends JDialog {
                 for (int i : selected) {
                     try {
                         LectureClass c = classes.get(i);
+                        classes.remove(i);
                         lectureClassStorage.deleteClass(c.getClassID(), user.getId());
+                        dispose();
                     } catch (SQLException exception) {
                         exception.printStackTrace();
                     }
@@ -83,7 +87,8 @@ public class ClassesDisplayer extends JDialog {
         add = new JButton("Add");
         add.addActionListener(e -> {
             System.out.println("Clicked on add");
-            AddClassDialog addDialog = new AddClassDialog(this);
+            dispose();
+            addDialog = new AddClassDialog(this);
             addDialog.setVisible(true);
         });
         
@@ -118,7 +123,7 @@ public class ClassesDisplayer extends JDialog {
         classes.add(c);
         getContentPane().remove(table);
         createTable();
-        getContentPane().add(table, BorderLayout.CENTER);
+        getContentPane().add(table);
         repaint();
     }
 
@@ -138,7 +143,8 @@ public class ClassesDisplayer extends JDialog {
                 }
             }
         });
-        JScrollPane scrollPane = new JScrollPane(table);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.getViewport().add(table);
     }
 
     private Object[][] prepareData() {

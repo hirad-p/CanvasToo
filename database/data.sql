@@ -1,4 +1,4 @@
---users
+-- users
 insert into users (firstName, lastName, email, pass)
     values ("Hirad", "P", "hirad@p.com", "test1");
 insert into users (firstName, lastName, email, pass)
@@ -8,7 +8,7 @@ insert into users (firstName, lastName, email, pass)
 insert into users (firstName, lastName, email, pass)
     values ("Nick", "H", "nick@h.com", "test4");
 
---class
+-- class
 insert into classes (id, title, startTime, endTime, startDate, endDate, recurring, uID)
       values ("CS157A", "Databases", "10:30:00", "11:45:00", "2018-8-22", "2018-12-10", "MW", 1);
 insert into classes (id, title, startTime, endTime, startDate, endDate, recurring, uID)
@@ -29,7 +29,7 @@ insert into classes (id, title, startTime, endTime, startDate, endDate, recurrin
 insert into classes (id, title, startTime, endTime, startDate, endDate, recurring, uID)
       values ("CS155", "Algorithms", "12:00:00", "13:15:00", "2018-8-22", "2018-12-10", "MW", 1);
 
---todos
+-- todos
 insert into todos (title, due, reminder, uID, classID)
     values("finish readme updates", '2018-11-19 10:30:00', '2018-11-18 20:00:00', 1, "CS157A");
 insert into todos (title, due, reminder, uID, classID)
@@ -40,7 +40,7 @@ insert into todos (title, due, reminder, uID, classID)
 insert into todos (title, due, reminder, uID, classID)
     values("study for midterm", '2018-11-19 12:00:00', '2018-11-18 08:00:00', 1, "CS155");
 
---notes
+-- notes
 insert into notes(title, note, uId, classId)
     values(
         "lecture 1",
@@ -62,7 +62,7 @@ insert into notes(title, note, uId, classId)
         "1",
         "CS155");
 
---events
+-- events
 insert into events(title, startDate, endDate, uID)
     values("Thanksgiving Break", "2018-11-21", "2018-11-25", 1);
 
