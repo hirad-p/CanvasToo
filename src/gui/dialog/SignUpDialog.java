@@ -22,7 +22,7 @@ public class SignUpDialog extends JDialog {
     private boolean success;
 
     public SignUpDialog(CanvasTooUI canvas, JFrame parent) {
-        super(parent, "Login", true);
+        super(parent, "Sign Up", true);
         this.canvas = canvas;
         storage = new UserStorage();
         user = null;
@@ -50,7 +50,7 @@ public class SignUpDialog extends JDialog {
         container.add(formPanel, BorderLayout.CENTER);
 
         // buttons
-        loginButton = new JButton("Signup");
+        loginButton = new JButton("Sign Up");
         loginButton.addActionListener(e -> signUp());
         resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> reset());
