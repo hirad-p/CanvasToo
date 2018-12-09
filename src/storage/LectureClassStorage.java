@@ -18,8 +18,8 @@ public class LectureClassStorage extends Storage {
      */
     public void addClass(LectureClass lectureClass, User user) throws SQLException {
         String sql =
-                "insert into classes (id, title, startTime, endTime, startDate, endDate, recurring, uID) "
-                        + "values (?, ?, ?, ?, ?, ?, ?, ?)";
+                "INSERT INTO classes (id, title, startTime, endTime, startDate, endDate, recurring, uID) "
+                        + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         Connection connection = this.getConnection();
         PreparedStatement statement = connection.prepareStatement(sql);
@@ -47,7 +47,7 @@ public class LectureClassStorage extends Storage {
      * @throws SQLException
      */
     public void editClass(LectureClass lectureClass, User user, String key, String value) throws SQLException {
-        String sql = "update classes set " + key + "=? where id=? and uId=?";
+        String sql = "UPDATE classes SET " + key + "=? WHERE id=? AND uId=?";
         Connection conn = getConnection();
         PreparedStatement stmnt = conn.prepareStatement(sql);
         stmnt.setString(1, value);
@@ -57,7 +57,7 @@ public class LectureClassStorage extends Storage {
     }
 
     public void editClass(LectureClassChange change) throws SQLException {
-        String sql = "update classes set " + change.key + "=? where id=? and uId=?";
+        String sql = "UPDATE classes SET " + change.key + "=? WHERE id=? AND uId=?";
         Connection conn = getConnection();
         PreparedStatement stmnt = conn.prepareStatement(sql);
         stmnt.setString(1, change.value);
@@ -72,7 +72,7 @@ public class LectureClassStorage extends Storage {
      * @throws SQLException
      */
     public void deleteClass(String classId, String userId) throws SQLException {
-        String sql = "delete from classes where id=? and uId=?";
+        String sql = "DELETE FROM classes WHERE id=? AND uId=?";
         Connection conn = getConnection();
         PreparedStatement stmnt = conn.prepareStatement(sql);
         stmnt.setString(1, classId);
@@ -88,11 +88,11 @@ public class LectureClassStorage extends Storage {
      * @throws SQLException
      */
     public ArrayList<User> getFullTimeStudents() throws SQLException {
-        String sql = "select users.firstname, users.lastname " +
-                "from users " +
-                "where 4 <= (select COUNT(*) " +
-                "from classes " +
-                "where classes.uID = users.id)";
+        String sql = "SELECT USERS.firstname, USERS.lastname " +
+                "FROM USERS " +
+                "WHERE 4 <= (SELECT COUNT(*) " +
+                "FROM classes " +
+                "WHERE classes.uID = USERS.id)";
 
         ArrayList<User> list = new ArrayList<>();
         Connection conn = getConnection();
@@ -108,38 +108,25 @@ public class LectureClassStorage extends Storage {
     /**
      * FUNCTION REQUIREMENT 20
      *
-     * @param classes
      * @return
      */
     public ArrayList<User> getUsersFromClasses(String class1, String class2) throws SQLException {
-        /*StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < classes.length; i++) {
-            builder.append("select users.firstName, users.lastName from users join classes on (users.id = classes.uID) where classes.id = \"");
-            builder.append(classes[i].getClassID());
-            if (i < classes.length - 1) {
-                builder.append("\" intersect ");
-            } else {
-                builder.append("\"");
-            }
-        }*/
-    	
-        //System.out.println(builder);
+        String sql = "SELECT table1.firstname, table1.lastname "
+                + "FROM (SELECT USERS.id, USERS.firstname, USERS.lastname, classes.title "
+                + "FROM USERS,classes "
+                + "WHERE USERS.id = classes.uID AND classes.id =? ) AS table1 "
+                + "WHERE table1.id IN "
+                + "(SELECT table2.id "
+                + "FROM (SELECT USERS.id, USERS.firstname, USERS.lastname, classes.title "
+                + "FROM USERS,classes "
+                + "WHERE USERS.id = classes.uID AND classes.id =? ) AS table2)";
 
-    	String sql = "select table1.firstname, table1.lastname " 
-    			   + "from (select users.id, users.firstname, users.lastname, classes.title "  
-    			   + "from users,classes " 
-    			   + "where users.id = classes.uID and classes.id =? ) as table1 " 
-    			   + "where table1.id in " 
-    			   + "(select table2.id " 
-    			   + "from (select users.id, users.firstname, users.lastname, classes.title " 
-    			   + "from users,classes " 
-    			   +"where users.id = classes.uID and classes.id =? ) as table2)";
-    				
         Connection connection = this.getConnection();
         PreparedStatement statement = connection.prepareStatement(sql);
-    	//set the parameters 
-		statement.setString(1, class1);
-		statement.setString(2, class2);
+
+        //set the parameters
+        statement.setString(1, class1);
+        statement.setString(2, class2);
         ResultSet set = statement.executeQuery();
         ArrayList<User> list = new ArrayList<>();
         while (set.next()) {
@@ -157,10 +144,10 @@ public class LectureClassStorage extends Storage {
         PreparedStatement statement;
         Connection conn = getConnection();
         if (user == null) {
-            sql = "select distinct id, title, startTime, endTime, startDate, endDate, recurring from classes";
+            sql = "SELECT DISTINCT id, title, startTime, endTime, startDate, endDate, recurring FROM classes";
             statement = conn.prepareStatement(sql);
         } else {
-            sql = "select distinct id, title, startTime, endTime, startDate, endDate, recurring from classes where uId=?";
+            sql = "SELECT DISTINCT id, title, startTime, endTime, startDate, endDate, recurring FROM classes WHERE uId=?";
             statement = conn.prepareStatement(sql);
             statement.setString(1, user.getId());
         }

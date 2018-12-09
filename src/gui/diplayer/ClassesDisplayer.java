@@ -57,6 +57,8 @@ public class ClassesDisplayer extends JDialog {
 
         createTable();
 
+        JLabel invalid = new JLabel("");
+        invalid.setForeground(Color.red);
         JButton delete, edit, add, back;
         delete = new JButton("Delete");
         delete.setOpaque(true);
@@ -70,6 +72,8 @@ public class ClassesDisplayer extends JDialog {
                         lectureClassStorage.deleteClass(c.getClassID(), user.getId());
                         dispose();
                     } catch (SQLException exception) {
+                        invalid.setText(exception.getMessage());
+                        container.repaint();
                         exception.printStackTrace();
                     }
 
@@ -83,6 +87,8 @@ public class ClassesDisplayer extends JDialog {
                 try {
                     lectureClassStorage.editClass(change);
                 } catch (SQLException exception) {
+                    invalid.setText(exception.getMessage());
+                    container.repaint();
                     exception.printStackTrace();
                 }
             }
@@ -102,6 +108,9 @@ public class ClassesDisplayer extends JDialog {
             dispose();
         });
 
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new GridLayout(2, 1));
+
         JPanel buttonPanel;
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridBagLayout());
@@ -113,16 +122,17 @@ public class ClassesDisplayer extends JDialog {
         buttonPanel.add(add, gbc);
         buttonPanel.add(back, gbc);
 
+        infoPanel.add(invalid);
+        infoPanel.add(buttonPanel);
+
         container.setLayout(new BorderLayout());
         container.add(table.getTableHeader(), BorderLayout.PAGE_START);
         container.add(table, BorderLayout.CENTER);
-        container.add(buttonPanel, BorderLayout.PAGE_END);
+        container.add(infoPanel, BorderLayout.PAGE_END);
 
         pack();
         setResizable(false);
         setLocationRelativeTo(canvas.frame);
-        
-        checkRequirement20();
     }
 
     public void AddClass(LectureClass c) {

@@ -17,17 +17,16 @@ public class ToDoStorage extends Storage {
 
     public void addToDo(ToDo todo, User user) throws SQLException {
         Connection conn = this.getConnection();
-        String sql = "insert into todos(title, due, reminder, classID, uID)" + "values (?, ?, ?, ?, ?)";
+
+        String sql = "insert into todos(title, classID, uID)" + "values (?, ?, ?)";
 
         // prepare statement
         PreparedStatement statement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
         // set the parameters
         statement.setString(1, todo.getTitle());
-        statement.setString(2, todo.getDue());
-        statement.setString(3, todo.getReminder());
-        statement.setString(4, todo.getClassId());
-        statement.setString(5, user.getId());
+        statement.setString(2, todo.getClassId());
+        statement.setString(3, user.getId());
 
         // execute the query
         int affected = statement.executeUpdate();
@@ -37,6 +36,22 @@ public class ToDoStorage extends Storage {
                 todo.setId(String.valueOf(set.getInt(1)));
                 System.out.println("Todo created with id of " + todo.getId());
             }
+        }
+
+        if (!"".equals(todo.getReminder())) {
+            sql = "update todos set reminder=? where id=?";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, todo.getReminder());
+            statement.setString(2, todo.getId());
+            statement.execute();
+        }
+
+        if (!"".equals(todo.getDue())) {
+            sql = "update todos set due=? where id=?";
+            statement = conn.prepareStatement(sql);
+            statement.setString(1, todo.getDue());
+            statement.setString(2, todo.getId());
+            statement.execute();
         }
     }
 

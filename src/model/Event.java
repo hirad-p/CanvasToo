@@ -11,7 +11,8 @@ public class Event {
     private String classID;
 
     //constructor
-    public Event(String title, String startTime, String endTime, String startDate, String endDate, String recurring, String classId) {
+    public Event(String id, String title, String startTime, String endTime, String startDate, String endDate, String recurring, String classId) {
+        this.id = id;
         this.title = title;
         this.startTime = startTime;
         this.endTime = endTime;

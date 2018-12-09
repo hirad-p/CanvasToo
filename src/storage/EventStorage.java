@@ -63,6 +63,7 @@ public class EventStorage extends Storage {
     }
 
     public void deleteEvent(Event event) throws SQLException {
+        System.out.println("id" + event.getId());
         String sql = "delete from events where id=?";
         Connection conn = getConnection();
         PreparedStatement stmnt = conn.prepareStatement(sql);
@@ -71,7 +72,7 @@ public class EventStorage extends Storage {
     }
 
     public ArrayList<Event> getEventsForClass(User user, LectureClass lectureClass) throws SQLException {
-        String sql = "select title, startTime, endTime, startDate, endDate, recurring from events where classId=? and uId=?";
+        String sql = "select id, title, startTime, endTime, startDate, endDate, recurring from events where classId=? and uId=?";
         Connection conn = getConnection();
         PreparedStatement stmnt = conn.prepareStatement(sql);
         stmnt.setString(1, lectureClass.getClassID());
@@ -87,6 +88,7 @@ public class EventStorage extends Storage {
                     set.getString(4),
                     set.getString(5),
                     set.getString(6),
+                    set.getString(7),
                     lectureClass.getClassID()
             ));
         }

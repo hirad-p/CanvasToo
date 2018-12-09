@@ -7,7 +7,6 @@ import gui.diplayer.ClassesDisplayer;
 import gui.diplayer.EventDisplayer;
 import gui.diplayer.NotesDisplayer;
 import gui.diplayer.TodoDisplayer;
-import model.LectureClass;
 import model.User;
 import storage.LectureClassStorage;
 import storage.Storage;
@@ -201,20 +200,16 @@ public class CanvasTooUI {
         JButton usersFromClasses = new JButton("Users From Classes");
         usersFromClasses.addActionListener(e -> {
             if (inputArea.getText().equals("")) {
-                resultArea.setText("Please enter a comma separated list of class ids. Ex: CS 155, CS 157A, ...");
+                resultArea.setText("Please enter a comma separated list of 2 class ids. Ex: CS 155, CS 157A");
                 return;
             }
 
             LectureClassStorage storage = new LectureClassStorage();
             String input = inputArea.getText();
             String[] classIds = input.split(",");
-            LectureClass[] classes = new LectureClass[classIds.length];
-            for (int i = 0; i < classes.length; i++) {
-                classes[i] = new LectureClass(classIds[i].trim());
-            }
 
             try {
-                ArrayList<User> users = storage.getUsersFromClasses(classes);
+                ArrayList<User> users = storage.getUsersFromClasses(classIds[0], classIds[1]);
                 if (users.size() > 0) {
                     resultArea.setText(Printer.printUsers(users));
                 } else {

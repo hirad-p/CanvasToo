@@ -111,7 +111,7 @@ public class EventDisplayer extends JDialog {
         add = new JButton("Add");
         add.addActionListener(e -> {
             System.out.println("Clicked on Add");
-            Event event = new Event("", "", "", "", "", "", "");
+            Event event = new Event("", "", "", "", "", "", "", "");
             AddEditEventDialog addEditEventDialog = new AddEditEventDialog(this, classes, event, true);
             addEditEventDialog.setVisible(true);
         });
