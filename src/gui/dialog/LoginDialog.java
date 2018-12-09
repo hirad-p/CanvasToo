@@ -30,12 +30,12 @@ public class LoginDialog extends JDialog {
         container.setLayout(new GridLayout(3, 2));
 
         // email
-        email = new JLabel("Email: ");
+        email = new JLabel("* Email: ");
         emailField = new JTextField();
         container.add(email); container.add(emailField);
 
         // pass
-        pass = new JLabel("Password: ");
+        pass = new JLabel("* Password: ");
         passField = new JPasswordField();
         container.add(pass); container.add(passField);
 

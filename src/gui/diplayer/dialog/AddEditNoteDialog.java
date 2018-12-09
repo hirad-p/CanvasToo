@@ -7,6 +7,8 @@ import model.User;
 import storage.NotesStorage;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public class AddEditNoteDialog extends JDialog {
 
         JPanel header = new JPanel();
         header.setLayout(new FlowLayout(FlowLayout.LEFT));
-        titleL = new JLabel("Title:");
+        titleL = new JLabel("* Title:");
         title = new JTextField(note.getTitle(), 20);
         header.add(titleL);
         header.add(title);
@@ -73,14 +75,14 @@ public class AddEditNoteDialog extends JDialog {
         try {
             if (!"".equals(title.getText())) {
                 note.setTitle(title.getText());
+	            note.setNote(body.getText());
+	            if (add) {
+	                storage.addNote(note, user, new LectureClass((String)classIds.getSelectedItem()));
+	            } else {
+	                storage.editNote(note, new LectureClass((String)classIds.getSelectedItem()));
+	            }
+	            dispose();
             }
-            note.setNote(body.getText());
-            if (add) {
-                storage.addNote(note, user, new LectureClass((String)classIds.getSelectedItem()));
-            } else {
-                storage.editNote(note, new LectureClass((String)classIds.getSelectedItem()));
-            }
-            dispose();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }

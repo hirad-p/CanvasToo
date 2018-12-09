@@ -1,13 +1,13 @@
 package model;
 
 public class ToDo {
-    private String id;
+	private String id;
     private String title;
     private String due;
     private String reminder;
     private String classId;
 
-    //constructor
+    //constructor 
     public ToDo(String title, String due, String reminder) {
         this.title = title;
         this.due = due;
@@ -15,7 +15,9 @@ public class ToDo {
     }
 
     public ToDo(String title, String due, String reminder, String classId) {
-        this(title, due, reminder);
+    	this.title = title;
+    	this.due = due;
+    	this.reminder = reminder;
         this.classId = classId;
     }
 
