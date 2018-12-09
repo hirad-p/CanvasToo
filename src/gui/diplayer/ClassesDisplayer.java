@@ -191,10 +191,10 @@ public class ClassesDisplayer extends JDialog {
     	System.out.println("get students in the same two classes");
     	
     	System.out.println("Enter class 1: ");
-    	String class1 = sc.nextLine();
+    	String class1 = sc.nextLine(); //CS157A
     	
     	System.out.println("Enter class 2: ");
-    	String class2 = sc.nextLine();
+    	String class2 = sc.nextLine(); //CS158B
     	
     	ArrayList<User> list = new ArrayList<>();
     	
@@ -203,7 +203,7 @@ public class ClassesDisplayer extends JDialog {
 			
 			for (int j = 0; j < list.size(); j++)
 	        {
-	            System.out.println(list.get(j).getFirstName() + list.get(j).getLastName());
+	            System.out.println(list.get(j).getFirstName() + " " + list.get(j).getLastName());
 	        }
 			
 			if(list.size() == 0) {
