@@ -1,18 +1,3 @@
-package gui;
-
-import gui.dialog.LoginDialog;
-import gui.dialog.SettingsDialog;
-import gui.dialog.SignUpDialog;
-import gui.diplayer.ClassesDisplayer;
-import gui.diplayer.EventDisplayer;
-import gui.diplayer.NotesDisplayer;
-import gui.diplayer.TodoDisplayer;
-import model.User;
-import storage.LectureClassStorage;
-import storage.Storage;
-import storage.ToDoStorage;
-import utils.Printer;
-
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;

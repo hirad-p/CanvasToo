@@ -1,16 +1,3 @@
-package gui.diplayer;
-
-import gui.CanvasTooUI;
-import gui.diplayer.dialog.AddEditEventDialog;
-import gui.diplayer.dialog.AddEditNoteDialog;
-import model.Event;
-import model.LectureClass;
-import model.Note;
-import model.Count;
-import model.User;
-import storage.EventStorage;
-import storage.LectureClassStorage;
-
 import java.awt.*;
 import javax.swing.*;
 import java.sql.SQLException;
