@@ -1,6 +1,7 @@
 package gui.diplayer;
 
 import gui.CanvasTooUI;
+import gui.diplayer.dialog.AddEditEventDialog;
 import gui.diplayer.dialog.AddEditNoteDialog;
 import model.Event;
 import model.LectureClass;
@@ -103,16 +104,16 @@ public class EventDisplayer extends JDialog {
         edit.addActionListener(e -> {
             System.out.println("Clicked on Edit");
             Event event = getSelectedEvent();
-//            AddEditNoteDialog addEditNoteDialog = new AddEditNoteDialog(this, classes, note, false);
-//            addEditNoteDialog.setVisible(true);
+            AddEditEventDialog addEditEventDialog = new AddEditEventDialog(this, classes, event, false);
+            addEditEventDialog.setVisible(true);
         });
 
         add = new JButton("Add");
         add.addActionListener(e -> {
             System.out.println("Clicked on Add");
             Event event = new Event("", "", "", "", "", "", "");
-//            AddEditNoteDialog addEditNoteDialog = new AddEditNoteDialog(this, classes, note, true);
-//            addEditNoteDialog.setVisible(true);
+            AddEditEventDialog addEditEventDialog = new AddEditEventDialog(this, classes, event, true);
+            addEditEventDialog.setVisible(true);
         });
         
         back = new JButton("Back");

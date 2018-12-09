@@ -13,7 +13,7 @@ public class SettingsDialog extends JDialog {
     private JLabel email, pass, invalid;
     private JTextField emailField;
     private JPasswordField passField;
-    private JButton doneButton, resetButton;
+    private JButton delButton, doneButton, resetButton;
 
     private User user;
     private UserStorage storage;
@@ -49,9 +49,11 @@ public class SettingsDialog extends JDialog {
         doneButton.addActionListener(e -> edit());
         resetButton = new JButton("Reset");
         resetButton.addActionListener(e -> reset());
+        delButton = new JButton("Delete");
+        delButton.addActionListener(e -> delete());
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(doneButton); buttonPanel.add(resetButton);
+        buttonPanel.add(doneButton); buttonPanel.add(resetButton); buttonPanel.add(delButton);
         container.add(buttonPanel);
 
         pack();
@@ -77,14 +79,27 @@ public class SettingsDialog extends JDialog {
                 canvas.setUser(user);
                 dispose();
             }
-            handleInvalid();
+            handleInvalid("");
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
     }
 
-    private void handleInvalid() {
-        invalid.setText("Unable to update");
+    private void delete() {
+        try {
+            storage.deleteUser(user);
+            System.exit(0);
+        } catch (SQLException e) {
+            handleInvalid(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void handleInvalid(String s) {
+        if (s.equals("")) {
+            s = "Unable to update";
+        }
+        invalid.setText(s);
         repaint();
         success = false;
     }

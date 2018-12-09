@@ -38,6 +38,21 @@ public class EventStorage extends Storage {
         }
     }
 
+    public void editEvent(Event event, LectureClass lectureClass) throws SQLException {
+        String sql = "update events set title=?, startTime=?, endTime=?, startDate=?, endDate=?, recurring=?, classID=? where id=?";
+        Connection conn = getConnection();
+        PreparedStatement stmnt = conn.prepareStatement(sql);
+        stmnt.setString(1, event.getTitle());
+        stmnt.setString(2, event.getStartTime());
+        stmnt.setString(3, event.getEndTime());
+        stmnt.setString(4, event.getStartDate());
+        stmnt.setString(5, event.getEndDate());
+        stmnt.setString(6, event.getRecurring());
+        stmnt.setString(7, lectureClass.getClassID());
+        stmnt.setString(8, event.getId());
+        stmnt.executeUpdate();
+    }
+
     public void editEvent(EventChange change) throws SQLException {
         String sql = "update events set " + change.key + "=? where id=?";
         Connection conn = getConnection();

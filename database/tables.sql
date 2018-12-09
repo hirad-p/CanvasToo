@@ -76,3 +76,56 @@ CREATE TABLE events(
     FOREIGN KEY (uID) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (classID) REFERENCES classes(id) 
 );
+
+-- Archives
+DROP TABLE IF EXISTS classesarchive;
+CREATE TABLE classesarchive(
+    id VARCHAR(10) NOT NULL,
+    title VARCHAR(30),
+    startTime TIME NOT NULL,
+    endTime TIME NOT NULL,
+    startDate DATE NOT NULL,
+    endDate DATE NOT NULL,
+    recurring VARCHAR(30) NOT NULL,
+    created TIMESTAMP DEFAULT now(),
+    modified TIMESTAMP DEFAULT now() ON UPDATE now(),
+    uID MEDIUMINT,
+);
+
+DROP TABLE IF EXISTS todosarchive;
+CREATE TABLE todosarchive(
+    id MEDIUMINT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(30) NOT NULL,
+    due TIMESTAMP,
+    reminder TIMESTAMP,
+    created TIMESTAMP DEFAULT now(),
+    modified TIMESTAMP DEFAULT now() ON UPDATE now(),
+    uID MEDIUMINT,
+    classID VARCHAR(10),
+);
+
+DROP TABLE IF EXISTS notesarchive;
+CREATE TABLE notesarchive(
+    id MEDIUMINT NOT NULL AUTO_INCREMENT,
+    title VARCHAR(30) NOT NULL,
+    note TEXT,
+    created TIMESTAMP DEFAULT now(),
+    modified TIMESTAMP DEFAULT now() ON UPDATE now(),
+    uID MEDIUMINT,
+    classID VARCHAR(10),
+);
+
+DROP TABLE IF EXISTS eventsarchive;
+CREATE TABLE eventsarchive(
+    id MEDIUMINT NOT NULL,
+    title VARCHAR(30) NOT NULL,
+    startTime TIME,
+    endTime TIME,
+    startDate DATE NOT NULL,
+    endDate DATE,
+    recurring VARCHAR(30),
+    created TIMESTAMP DEFAULT now(),
+    modified TIMESTAMP DEFAULT now() ON UPDATE now(),
+    uID MEDIUMINT,
+    classID VARCHAR(10),
+);

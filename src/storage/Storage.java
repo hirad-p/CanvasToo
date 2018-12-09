@@ -3,20 +3,17 @@ package storage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Properties;
 
 
 public class Storage {
     protected Properties props;
 
-    protected Connection getConnection() {
-        loadProps();
-        String url = props.getProperty("MYSQL_DB_URL");
-        String user = props.getProperty("MYSQL_DB_USERNAME");
-        String pass = props.getProperty("MYSQL_DB_PASSWORD");
+    public static Connection getConnection(Properties p) {
+        String url = p.getProperty("MYSQL_DB_URL");
+        String user = p.getProperty("MYSQL_DB_USERNAME");
+        String pass = p.getProperty("MYSQL_DB_PASSWORD");
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, user, pass);
@@ -28,13 +25,13 @@ public class Storage {
         return connection;
     }
 
-    protected void loadProps() {
-        props = new Properties();
+    public static Properties getProps() {
+        Properties p = new Properties();
         FileInputStream fis;
         try {
             fis = new FileInputStream("db.properties");
             try {
-                props.load(fis);
+                p.load(fis);
             } catch (IOException e) {
                 e.printStackTrace();
                 System.exit(1);
@@ -43,5 +40,23 @@ public class Storage {
             e.printStackTrace();
             System.exit(1);
         }
+
+        return p;
+    }
+
+    public void archive(String timestamp) throws SQLException {
+        Connection conn = getConnection();
+        CallableStatement cs = conn.prepareCall("{CALL archiveRows(?)}");
+        cs.setTimestamp(1, Timestamp.valueOf(timestamp));
+        cs.execute();
+    }
+
+    protected Connection getConnection() {
+        loadProps();
+        return Storage.getConnection(props);
+    }
+
+    protected void loadProps() {
+        props = Storage.getProps();
     }
 }

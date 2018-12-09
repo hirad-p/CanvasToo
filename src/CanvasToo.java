@@ -1,9 +1,25 @@
 import cli.MainCLI;
 import gui.CanvasTooUI;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Properties;
 import java.util.Scanner;
 import javax.swing.SwingUtilities;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import com.ibatis.common.jdbc.ScriptRunner;
+import storage.Storage;
 
 public class CanvasToo {
     public static final boolean GUI_MODE = true;
@@ -15,7 +31,6 @@ public class CanvasToo {
             CLI();
         }
     }
-
 
     private static void CLI() throws SQLException {
         Scanner scanner = new Scanner(System.in);
