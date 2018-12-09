@@ -38,7 +38,7 @@ public class AddClassDialog extends JDialog {
         JPanel holder = new JPanel();
         holder.setLayout(new GridLayout(7, 2));
         
-        idL = new JLabel("Id (Ex.CS 157): ");
+        idL = new JLabel("* Id (Ex.CS 157): ");
         id = new JTextField();
         holder.add(idL); holder.add(id);
 
@@ -46,26 +46,26 @@ public class AddClassDialog extends JDialog {
         title = new JTextField();
         holder.add(titleL); holder.add(title);
 
-        startTimeL = new JLabel("Start Time (Format: hh:mm:ss): ");
+        startTimeL = new JLabel("* Start Time (Format: hh:mm:ss): ");
         startTime = new JTextField();
         holder.add(startTimeL); holder.add(startTime);
 
-        endTimeL = new JLabel("End Time (Format: hh:mm:ss): ");
+        endTimeL = new JLabel("* End Time (Format: hh:mm:ss): ");
         endTime = new JTextField();
         holder.add(endTimeL); holder.add(endTime);
 
-        startDateL = new JLabel("Start Date (Format: yyyy-mm-dd): ");
+        startDateL = new JLabel("* Start Date (Format: yyyy-mm-dd): ");
         startDate = new JTextField();
         holder.add(startDateL); holder.add(startDate);
 
-        endDateL = new JLabel("End Date (Format: yyyy-mm-dd): ");
+        endDateL = new JLabel("* End Date (Format: yyyy-mm-dd): ");
         endDate = new JTextField();
         holder.add(endDateL); holder.add(endDate);
         
         container.add(holder);
 
         // @todo - switch to check boxes
-        recurringL = new JLabel("Recurring: ");
+        recurringL = new JLabel("* Recurring: ");
         //recurring = new JTextField();
         container.add(recurringL); //container.add(recurring);
         
@@ -128,9 +128,9 @@ public class AddClassDialog extends JDialog {
       
         tuesday.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {             
-            	recurring+="TU"; 
+            	recurring+="Tu"; 
             	if (e.getStateChange() == ItemEvent.DESELECTED) {
-            		recurring.replace("TU", "");
+            		recurring.replace("Tu", "");
                 }
              }
           });
@@ -146,9 +146,9 @@ public class AddClassDialog extends JDialog {
         
         thursday.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {             
-            	recurring+="TH"; 
+            	recurring+="Th"; 
             	if (e.getStateChange() == ItemEvent.DESELECTED) {
-            		recurring.replace("TH", "");
+            		recurring.replace("Th", "");
                 }
              }
           });
@@ -164,18 +164,18 @@ public class AddClassDialog extends JDialog {
         
         saturday.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {             
-            	recurring+="SA"; 
+            	recurring+="Sa"; 
             	if (e.getStateChange() == ItemEvent.DESELECTED) {
-            		recurring.replace("SA", "");
+            		recurring.replace("Sa", "");
                 }
              }
           });
         
         sunday.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {             
-            	recurring+="SU"; 
+            	recurring+="Su"; 
             	if (e.getStateChange() == ItemEvent.DESELECTED) {
-            		recurring.replace("SU", "");
+            		recurring.replace("Su", "");
                 }
              }
           });
@@ -213,9 +213,10 @@ public class AddClassDialog extends JDialog {
 
     private void add() {
         try {
-            success = !(id.getText().isEmpty() && title.getText().isEmpty() && 
-            		startTime.getText().isEmpty() && endTime.getText().isEmpty() 
-            		&& startDate.getText().isEmpty() && endDate.getText().isEmpty());
+            success = !(id.getText().isEmpty() ||  
+            		startTime.getText().isEmpty() || endTime.getText().isEmpty() 
+            		|| startDate.getText().isEmpty() || endDate.getText().isEmpty()
+            		|| recurring.length()==0);
 
             if (success) {
             	LectureClass c = new LectureClass(

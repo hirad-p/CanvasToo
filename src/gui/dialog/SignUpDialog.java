@@ -35,13 +35,13 @@ public class SignUpDialog extends JDialog {
         //JPanel formPanel =  new JPanel();
         //formPanel.setLayout(new GridLayout(5, 2));
 
-        first = new JLabel("First Name: ");
+        first = new JLabel("* First Name: ");
         firstField = new JTextField();
         last = new JLabel("Last Name: ");
         lastField = new JTextField();
-        email = new JLabel("Email: ");
+        email = new JLabel("* Email: ");
         emailField = new JTextField();
-        pass = new JLabel("Password: ");
+        pass = new JLabel("* Password: ");
         passField = new JPasswordField();
         invalid = new JLabel();
         invalid.setForeground(Color.red);
@@ -81,11 +81,14 @@ public class SignUpDialog extends JDialog {
     }
 
     private void signUp() {
-        user = new User(firstField.getText(), lastField.getText(), emailField.getText(), new String(passField.getPassword()));
+    	success = !(firstField.getText().isEmpty() ||
+    			emailField.getText().isEmpty() || passField.getPassword().length == 0);
         try {
-            storage.addUser(user);
-            success = user.getId() != null;
-            if (success) {
+        	if (success) {
+        		user = new User(firstField.getText(), lastField.getText(), emailField.getText(), new String(passField.getPassword()));
+
+        		storage.addUser(user);
+    
                 canvas.setUser(user);
                 dispose();
             }

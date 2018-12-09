@@ -33,14 +33,14 @@ public class AddTodoDialog extends JDialog {
         storage = new ToDoStorage();
 
         container = getContentPane();
-        container.setLayout(new GridLayout(8, 2));
+        container.setLayout(new GridLayout(5, 2));
 
-        titleL = new JLabel("Title: ");
+        titleL = new JLabel("* Title: ");
         title = new JTextField();
         container.add(titleL); container.add(title);
 
         // @todo add none as option
-        classL = new JLabel("Class: ");
+        classL = new JLabel("* Class: ");
         String[] ids = new String[classes.size()];
         for (int i = 0; i < ids.length; i++) {
             ids[i] = classes.get(i).getClassID();
@@ -79,20 +79,25 @@ public class AddTodoDialog extends JDialog {
 
     private void add() {
         try {
-            ToDo todo = new ToDo(
-                    title.getText(),
-                    due.getText(),
-                    reminder.getText(),
-                    (String) classIds.getSelectedItem()
-            );
-
-            Printer.printTodo(todo);
-
-            storage.addToDo(todo, user);
-            displayer.AddToDo(todo);
-            dispose();
+        	ToDo todo;
+        	if(!(title.getText().isEmpty())) {
+	            todo = new ToDo(
+	                    title.getText(),
+	                    due.getText(),
+	                    reminder.getText(),
+	                    (String) classIds.getSelectedItem()
+	            );
+        
+	            Printer.printTodo(todo);
+	
+	            storage.addToDo(todo, user);
+	            displayer.AddToDo(todo);
+	            dispose();
+        	}
+        	else {
+        		  handleInvalid();
+        	}
         } catch (SQLException exception) {
-            handleInvalid();
             exception.printStackTrace();
         }
     }
