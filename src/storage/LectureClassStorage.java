@@ -46,7 +46,7 @@ public class LectureClassStorage extends Storage {
      * @param value
      * @throws SQLException
      */
-    /*public void editClass(LectureClass lectureClass, User user, String key, String value) throws SQLException {
+    public void editClass(LectureClass lectureClass, User user, String key, String value) throws SQLException {
         String sql = "update classes set " + key + "=? where id=? and uId=?";
         Connection conn = getConnection();
         PreparedStatement stmnt = conn.prepareStatement(sql);
@@ -54,7 +54,7 @@ public class LectureClassStorage extends Storage {
         stmnt.setString(2, lectureClass.getClassID());
         stmnt.setString(3, user.getId());
         stmnt.executeUpdate();
-    }*/
+    }
 
     public void editClass(LectureClassChange change) throws SQLException {
         String sql = "update classes set " + change.key + "=? where id=? and uId=?";
@@ -118,6 +118,8 @@ public class LectureClassStorage extends Storage {
             builder.append(classes[i].getClassID());
             if (i < classes.length - 1) {
                 builder.append("\" intersect ");
+            } else {
+                builder.append("\"");
             }
         }*/
     	

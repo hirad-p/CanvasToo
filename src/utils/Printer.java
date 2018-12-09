@@ -8,11 +8,15 @@ import model.User;
 import java.util.ArrayList;
 
 public class Printer {
-    public static void printUsers(ArrayList<User> users) {
-        System.out.println("--- Users ---");
-        for (User u : users) {
-            System.out.println(u.getFirstName() + " " + u.getLastName());
+    public static String printUsers(ArrayList<User> users) {
+        User u;
+        String result = "";
+        for (int i = 0; i < users.size(); i++) {
+            u = users.get(i);
+            result += Integer.toString(i + 1) + ". " + u.getFirstName() + " " + u.getLastName() + "\n";
         }
+
+        return result;
     }
 
     public static void printClasses(ArrayList<LectureClass> classes) {

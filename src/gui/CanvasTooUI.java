@@ -7,10 +7,17 @@ import gui.diplayer.ClassesDisplayer;
 import gui.diplayer.EventDisplayer;
 import gui.diplayer.NotesDisplayer;
 import gui.diplayer.TodoDisplayer;
+import model.LectureClass;
 import model.User;
+import storage.LectureClassStorage;
+import storage.Storage;
+import storage.ToDoStorage;
+import utils.Printer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class CanvasTooUI {
     public JFrame frame;
@@ -159,13 +166,129 @@ public class CanvasTooUI {
     }
 
     private void adminScreen() {
+
+        JPanel adminScreen = new JPanel();
+        adminScreen.setLayout(new BorderLayout());
+
+        JPanel infoPanel = new JPanel();
+        JLabel inputLabel = new JLabel("Input: ");
+        JTextField inputArea = new JTextField("", 25);
+        infoPanel.add(inputLabel);
+        infoPanel.add(inputArea);
+
+        JTextArea resultArea = new JTextArea(25, 100);
+        resultArea.setEditable(false);
+
         JPanel options = new JPanel();
-        options.setLayout(new BoxLayout(options, BoxLayout.Y_AXIS));
+        options.setLayout(new BoxLayout(options, BoxLayout.X_AXIS));
+
+        JButton fullTimeStudents = new JButton("Full Time Students");
+        fullTimeStudents.addActionListener(e -> {
+            LectureClassStorage storage = new LectureClassStorage();
+
+            try {
+                ArrayList<User> users = storage.getFullTimeStudents();
+                if (users.size() > 0) {
+                    resultArea.setText(Printer.printUsers(users));
+                } else {
+                    resultArea.setText("No full time users");
+                }
+            } catch (SQLException exception) {
+                resultArea.setText(exception.getMessage());
+            }
+        });
+
+        JButton usersFromClasses = new JButton("Users From Classes");
+        usersFromClasses.addActionListener(e -> {
+            if (inputArea.getText().equals("")) {
+                resultArea.setText("Please enter a comma separated list of class ids. Ex: CS 155, CS 157A, ...");
+                return;
+            }
+
+            LectureClassStorage storage = new LectureClassStorage();
+            String input = inputArea.getText();
+            String[] classIds = input.split(",");
+            LectureClass[] classes = new LectureClass[classIds.length];
+            for (int i = 0; i < classes.length; i++) {
+                classes[i] = new LectureClass(classIds[i].trim());
+            }
+
+            try {
+                ArrayList<User> users = storage.getUsersFromClasses(classes);
+                if (users.size() > 0) {
+                    resultArea.setText(Printer.printUsers(users));
+                } else {
+                    resultArea.setText("No users from the selected classes");
+                }
+            } catch (SQLException exception) {
+                resultArea.setText(exception.getMessage());
+            }
+        });
+
+        JButton usersWithNoTodos = new JButton("Users w/ No Todos");
+        usersWithNoTodos.addActionListener(e -> {
+            ToDoStorage storage = new ToDoStorage();
+
+            try {
+                ArrayList<User> users = storage.getUsersWithNoToDos();
+                if (users.size() > 0) {
+                    resultArea.setText(Printer.printUsers(users));
+                } else {
+                    resultArea.setText("No users with no todos");
+                }
+            } catch (SQLException exception) {
+                resultArea.setText(exception.getMessage());
+            }
+        });
+
+        JButton usersWithOverdueTodos = new JButton("Users w/ Overdue Todos");
+        usersWithOverdueTodos.addActionListener(e -> {
+            ToDoStorage storage = new ToDoStorage();
+
+            try {
+                ArrayList<User> users = storage.getUsersWithOverDueTodos();
+                if (users.size() > 0) {
+                    resultArea.setText(Printer.printUsers(users));
+                } else {
+                    resultArea.setText("No users with overdue todos");
+                }
+            } catch (SQLException exception) {
+                resultArea.setText(exception.getMessage());
+            }
+        });
+
+        JButton archive = new JButton("Archive");
+        archive.addActionListener(e -> {
+            if (inputArea.getText().equals("")) {
+                resultArea.setText("Please enter a timestamp (yyyy-mm-dd hh:mm:ss)");
+                return;
+            }
+
+            Storage storage = new Storage();
+            try {
+                storage.archive(inputArea.getText());
+                resultArea.setText("Done!");
+            } catch (SQLException exception) {
+                resultArea.setText(exception.getMessage());
+            }
+        });
+
+        options.add(fullTimeStudents);
+        options.add(usersFromClasses);
+        options.add(usersWithNoTodos);
+        options.add(usersWithOverdueTodos);
+        options.add(archive);
+
+        adminScreen.add(infoPanel, BorderLayout.NORTH);
+        adminScreen.add(resultArea, BorderLayout.CENTER);
+        adminScreen.add(options, BorderLayout.SOUTH);
+
+        changeScreen(adminScreen, 500, 400);
     }
 
     private void changeScreen(JComponent component, int width, int height) {
         frame.setContentPane(component);
-        //frame.setSize(width, height);
+        frame.setSize(width, height);
         frame.pack();
         frame.validate();
         frame.repaint();
